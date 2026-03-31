@@ -5,36 +5,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Punto de corte</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="css/cssinicial.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar bg-body-tertiary">
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary"> <!-- Barra de navegación -->
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Punto de corte</a>
+        <a class="navbar-brand" href="#">
+            <img src="img/favicon_escudo.svg" alt="Logo" width="40" height="40" class="d-inline-block">
+            Punto de corte
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Estadísticas</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Temario
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
     </div>
 </nav>
 
-<div class="container">
+
+
+
+
+<div class="container mt-4 func-estilo">
     <div class="row">
-         <div class="col-md-3">
+         <div class="col-md-3 mb-4">
              <!-- //4 columnas de 3 lugares de ancho -->
-             <div class="card" style="width: 18rem;">
+             <div class="card">
                  <img src="/img/estadisticas.png" class="card-img-top" alt="Estadísticas ">
                  <div class="card-body">
-                     <h5 class="card-title">Funcionalidad 1</h5>
-                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                     <a href="#" class="btn btn-primary">Ir a la función</a>
-                 </div>
-             </div>
-
-             <div class="card" style="width: 18rem;">
-                 <img src="/img/imagen chat ia.png" class="card-img-top" alt="Chat IA">
-                 <div class="card-body">
-                     <h5 class="card-title">Funcionalidad 2</h5>
-                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                     <a href="#" class="btn btn-primary">Ir a la función</a>
+                     <h5 class="card-title">Estadísticas</h5>
+                     <p class="card-text">Sigue tu evolución</p>
+                     <div class="card-footer text-muted">
+                         <a href="#" class="btn btn-primary">Ir a tus estadísticas</a>
+                     </div>
                  </div>
              </div>
          </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="/img/temario.png" class="card-img-top" alt="Temario ">
+                <div class="card-body">
+                    <h5 class="card-title">Temario</h5>
+                    <p class="card-text">¡Descarga tu temario!</p>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Ir a tu temario</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="/img/Imagen chat ia.png" class="card-img-top" alt="Chat IA ">
+                <div class="card-body">
+                    <h5 class="card-title">Chat Oppi</h5>
+                    <p class="card-text">Habla con Oppi y estudia con él</p>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Chat de Oppi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="/img/apuntes.png" class="card-img-top" alt="Apuntes ">
+                <div class="card-body">
+                    <h5 class="card-title">Tus archivos</h5>
+                    <p class="card-text">Sube tus esquemas y apuntes</p>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Ir a tus archivos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="/img/flashcards.png" class="card-img-top" alt="Flashcards ">
+                <div class="card-body">
+                    <h5 class="card-title">Tus flashcards</h5>
+                    <p class="card-text">Crea y estudia con tus flashcards</p>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Ir a tus flashcards</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="/img/video.png" class="card-img-top" alt="Videos ">
+                <div class="card-body">
+                    <h5 class="card-title">Tus videos</h5>
+                    <p class="card-text">Guarda enlaces a videos</p>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Ir a tus videos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="/img/calendario.png" class="card-img-top" alt="Calendario ">
+                <div class="card-body">
+                    <h5 class="card-title">Tu calendario</h5>
+                    <p class="card-text">¡Organizate!</p>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Ir a tu calendario</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <img src="/img/tienda.png" class="card-img-top" alt="Tienda ">
+                <div class="card-body">
+                    <h5 class="card-title">Tienda</h5>
+                    <p class="card-text">Compra todo lo que necesitas</p>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Ir a la tienda</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 

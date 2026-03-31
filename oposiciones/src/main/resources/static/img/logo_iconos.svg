@@ -1,0 +1,28 @@
+<svg width="680" height="220" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Shield shape -->
+  <path d="M340 20 L410 50 L410 130 Q410 180 340 205 Q270 180 270 130 L270 50 Z"
+        fill="#1A3A5C" stroke="none"/>
+
+  <!-- Inner shield highlight -->
+  <path d="M340 36 L396 62 L396 130 Q396 172 340 194 Q284 172 284 130 L284 62 Z"
+        fill="none" stroke="#2E6BAD" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Star / badge lines inside shield -->
+  <line x1="340" y1="64" x2="340" y2="168" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+  <line x1="300" y1="84" x2="380" y2="148" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+  <line x1="380" y1="84" x2="300" y2="148" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+
+  <!-- Central dot -->
+  <circle cx="340" cy="116" r="20" fill="#2E6BAD" opacity="0.9"/>
+  <circle cx="340" cy="116" r="11" fill="#4A9EE0"/>
+  <circle cx="340" cy="116" r="4.5" fill="white"/>
+
+  <!-- Score bar -->
+  <rect x="220" y="212" width="240" height="6" rx="3" fill="#1A3A5C" opacity="0.18"/>
+  <rect x="220" y="212" width="144" height="6" rx="3" fill="#2E6BAD"/>
+  <!-- Cut point marker -->
+  <rect x="362" y="205" width="2.5" height="20" rx="1" fill="#E05A2B"/>
+  <polygon points="363.25,202 357,195 369.5,195" fill="#E05A2B"/>
+
+</svg>
