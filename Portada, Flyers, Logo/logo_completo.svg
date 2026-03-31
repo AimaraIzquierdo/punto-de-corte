@@ -1,0 +1,51 @@
+<svg width="680" height="260" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Shield shape -->
+  <path d="M340 40 L400 65 L400 140 Q400 185 340 210 Q280 185 280 140 L280 65 Z"
+        fill="#1A3A5C" stroke="none"/>
+
+  <!-- Inner shield highlight -->
+  <path d="M340 55 L388 76 L388 140 Q388 178 340 200 Q292 178 292 140 L292 76 Z"
+        fill="none" stroke="#2E6BAD" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Star / badge lines inside shield -->
+  <line x1="340" y1="80" x2="340" y2="175" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+  <line x1="305" y1="97" x2="375" y2="158" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+  <line x1="375" y1="97" x2="305" y2="158" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+
+  <!-- Central star dot -->
+  <circle cx="340" cy="127" r="18" fill="#2E6BAD" opacity="0.9"/>
+  <circle cx="340" cy="127" r="10" fill="#4A9EE0"/>
+  <circle cx="340" cy="127" r="4" fill="white"/>
+
+  <!-- Score bar -->
+  <rect x="195" y="222" width="290" height="6" rx="3" fill="#1A3A5C" opacity="0.18"/>
+  <rect x="195" y="222" width="174" height="6" rx="3" fill="#2E6BAD"/>
+  <!-- Cut point marker -->
+  <rect x="368" y="215" width="2.5" height="20" rx="1" fill="#E05A2B"/>
+  <polygon points="369.25,212 363,205 375.5,205" fill="#E05A2B"/>
+
+  <!-- Wordmark -->
+  <text x="340" y="162"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="11"
+        font-weight="700"
+        letter-spacing="3"
+        fill="white"
+        text-anchor="middle"
+        opacity="0.9">SEGURIDAD</text>
+
+  <!-- Main title -->
+  <text x="340" y="252"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="28"
+        font-weight="700"
+        letter-spacing="1"
+        fill="#1A3A5C"
+        text-anchor="middle">punto de corte</text>
+
+  <!-- Tagline dots separator -->
+  <circle cx="246" cy="248" r="2" fill="#E05A2B"/>
+  <circle cx="434" cy="248" r="2" fill="#E05A2B"/>
+
+</svg>
