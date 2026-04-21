@@ -1,0 +1,21 @@
+<svg width="680" height="220" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Shield shape -->
+  <path d="M340 15 L415 48 L415 132 Q415 183 340 208 Q265 183 265 132 L265 48 Z"
+        fill="#1A3A5C" stroke="none"/>
+
+  <!-- Inner shield highlight -->
+  <path d="M340 32 L400 60 L400 132 Q400 176 340 198 Q280 176 280 132 L280 60 Z"
+        fill="none" stroke="#2E6BAD" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Star / badge lines inside shield -->
+  <line x1="340" y1="62" x2="340" y2="170" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+  <line x1="298" y1="84" x2="382" y2="150" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+  <line x1="382" y1="84" x2="298" y2="150" stroke="#4A9EE0" stroke-width="1" opacity="0.5"/>
+
+  <!-- Central dot -->
+  <circle cx="340" cy="116" r="21" fill="#2E6BAD" opacity="0.9"/>
+  <circle cx="340" cy="116" r="12" fill="#4A9EE0"/>
+  <circle cx="340" cy="116" r="5" fill="white"/>
+
+</svg>
