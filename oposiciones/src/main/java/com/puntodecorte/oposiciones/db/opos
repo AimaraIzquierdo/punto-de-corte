@@ -1,0 +1,251 @@
+CREATE DATABASE IF NOT EXISTS oposiciones_db;
+USE oposiciones_db;
+
+-- ======================
+-- ROLES
+-- ======================
+CREATE TABLE Roles (
+    id_rol INT AUTO_INCREMENT PRIMARY KEY,
+    name_rol VARCHAR(30),
+    descr_rol VARCHAR(100)
+);
+
+-- ======================
+-- ACADEMIAS
+-- ======================
+CREATE TABLE Academias (
+    id_aca INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_aca VARCHAR(30),
+    email_aca VARCHAR(50),
+    telefono_aca INT,
+    direccion_aca VARCHAR(60)
+);
+
+-- ======================
+-- OPOSICIONES (NUEVA)
+-- ======================
+CREATE TABLE Oposiciones (
+    id_opo INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_opo VARCHAR(100)
+);
+
+-- ======================
+-- TEMAS (depende de Oposiciones)
+-- ======================
+CREATE TABLE Temas (
+    id_tema INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_tema VARCHAR(50),
+    desc_tema TEXT,
+    id_opo INT,
+    FOREIGN KEY (id_opo) REFERENCES Oposiciones(id_opo)
+);
+
+-- ======================
+-- USUARIOS (depende de Roles y Academias)
+-- ======================
+CREATE TABLE Usuarios (
+    id_usu INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usu VARCHAR(30),
+    ape_usu VARCHAR(50),
+    email_usu VARCHAR(50),
+    contrasena_usu VARCHAR(100),
+    id_rol INT,
+    id_aca INT,
+    fecha_registro DATE,
+    foto_perfil VARCHAR(255),
+    espacio_almacenar INT,
+    FOREIGN KEY (id_rol) REFERENCES Roles(id_rol),
+    FOREIGN KEY (id_aca) REFERENCES Academias(id_aca)
+);
+
+-- ======================
+-- TEMARIOS (depende de Usuarios, Academias y Oposiciones)
+-- ======================
+CREATE TABLE Temarios (
+    id_temario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_temario VARCHAR(50),
+    tipo_temario VARCHAR(50),
+    ruta_temario VARCHAR(100),
+    fecha_temario DATE,
+    desc_temario TEXT,
+    id_usu INT,
+    id_aca INT,
+    id_opo INT NULL,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu),
+    FOREIGN KEY (id_aca) REFERENCES Academias(id_aca),
+    FOREIGN KEY (id_opo) REFERENCES Oposiciones(id_opo)
+);
+
+-- ======================
+-- TEST
+-- ======================
+CREATE TABLE Test (
+    id_test INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(30),
+    id_tema INT,
+    id_usu INT,
+    fecha_test DATE,
+    visible ENUM('opositor','resto'),
+    FOREIGN KEY (id_tema) REFERENCES Temas(id_tema),
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu)
+);
+
+-- ======================
+-- PREGUNTAS
+-- ======================
+CREATE TABLE Preguntas (
+    id_preg INT AUTO_INCREMENT PRIMARY KEY,
+    enunciado_preg TEXT,
+    tipo_preg ENUM('opcion_unica'),
+    id_test INT,
+    FOREIGN KEY (id_test) REFERENCES Test(id_test)
+);
+
+-- ======================
+-- OPCIONES
+-- ======================
+CREATE TABLE Opciones (
+    id_opcion INT AUTO_INCREMENT PRIMARY KEY,
+    texto VARCHAR(100),
+    es_correcta BOOLEAN,
+    id_preg INT,
+    FOREIGN KEY (id_preg) REFERENCES Preguntas(id_preg)
+);
+
+-- ======================
+-- RESULTADOS TEST
+-- ======================
+CREATE TABLE Resultados_test (
+    id_resul INT AUTO_INCREMENT PRIMARY KEY,
+    nota FLOAT,
+    fecha_resul DATE,
+    respuestas JSON,
+    id_usu INT,
+    id_test INT,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu),
+    FOREIGN KEY (id_test) REFERENCES Test(id_test)
+);
+
+-- ======================
+-- SUSCRIPCIONES
+-- ======================
+CREATE TABLE Suscripciones (
+    id_susc INT AUTO_INCREMENT PRIMARY KEY,
+    tipo ENUM('mensual','anual'),
+    inicio_susc DATE,
+    fin_susc DATE,
+    tipo_pago VARCHAR(30),
+    estado ENUM('activa','caducada'),
+    id_usu INT,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu)
+);
+
+-- ======================
+-- FLASHCARDS
+-- ======================
+CREATE TABLE Flashcards (
+    id_flash INT AUTO_INCREMENT PRIMARY KEY,
+    preg_flash TEXT,
+    resp_flash TEXT,
+    date_flash DATE,
+    visibilidad ENUM('personal','grupoOpo'),
+    id_usu INT,
+    id_tema INT,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu),
+    FOREIGN KEY (id_tema) REFERENCES Temas(id_tema)
+);
+
+-- ======================
+-- EVENTOS
+-- ======================
+CREATE TABLE Eventos (
+    id_evento INT AUTO_INCREMENT PRIMARY KEY,
+    titulo_event VARCHAR(30),
+    desc_event TEXT,
+    inicio_event DATE,
+    fin_event DATE,
+    tipo ENUM('personal','academia'),
+    id_usu INT,
+    id_aca INT,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu),
+    FOREIGN KEY (id_aca) REFERENCES Academias(id_aca)
+);
+
+-- ======================
+-- METRICAS
+-- ======================
+CREATE TABLE Metricas (
+    id_metr INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_metr ENUM('test','otras','flashcards'),
+    valor_metr FLOAT,
+    fecha_metr DATE,
+    detalle_metr JSON,
+    id_usu INT,
+    id_tema INT,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu),
+    FOREIGN KEY (id_tema) REFERENCES Temas(id_tema)
+);
+
+-- ======================
+-- VIDEOS
+-- ======================
+CREATE TABLE Videos (
+    id_video INT AUTO_INCREMENT PRIMARY KEY,
+    url_video VARCHAR(255),
+    descrip_video TEXT,
+    id_admin INT,
+    id_tema INT NULL,
+    FOREIGN KEY (id_admin) REFERENCES Usuarios(id_usu),
+    FOREIGN KEY (id_tema) REFERENCES Temas(id_tema)
+);
+
+-- ======================
+-- BLOG
+-- ======================
+CREATE TABLE Blog (
+    id_blog INT AUTO_INCREMENT PRIMARY KEY,
+    titulo_blog VARCHAR(255),
+    content_blog TEXT,
+    fecha_blog DATE,
+    img_blog VARCHAR(255),
+    id_admin INT,
+    FOREIGN KEY (id_admin) REFERENCES Usuarios(id_usu)
+);
+
+-- ======================
+-- TIENDA
+-- ======================
+CREATE TABLE Tienda (
+    id_produc INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_produc VARCHAR(255),
+    descrip_produc TEXT,
+    precio FLOAT,
+    url_produc VARCHAR(255),
+    id_admin INT,
+    FOREIGN KEY (id_admin) REFERENCES Usuarios(id_usu)
+);
+
+-- ======================
+-- CHAT IA
+-- ======================
+CREATE TABLE Chat_IA (
+    id_chat INT AUTO_INCREMENT PRIMARY KEY,
+    mens_usu TEXT,
+    resp_ia TEXT,
+    fecha DATETIME,
+    id_usu INT,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu)
+);
+
+-- ======================
+-- AVISOS
+-- ======================
+CREATE TABLE Avisos (
+    id_aviso INT AUTO_INCREMENT PRIMARY KEY,
+    mensaje_aviso TEXT,
+    crea_aviso DATETIME,
+    leido_aviso BOOLEAN,
+    tipo_aviso INT,
+    id_usu INT,
+    FOREIGN KEY (id_usu) REFERENCES Usuarios(id_usu)
+);
