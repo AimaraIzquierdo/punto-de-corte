@@ -12,7 +12,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary"> <!-- Barra de navegación -->
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="img/favicon_escudo.svg" alt="Logo" width="40" height="40" class="d-inline-block">
+            <img src="img/favicon_escudo.svg" alt="Logo" class="d-inline-block" style="width: 40px; height: auto;">
             Punto de corte
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,112 +55,19 @@
 
 <div class="container mt-4 func-estilo">
     <div class="row">
-         <div class="col-md-3 mb-4">
+         <div th:each="modulo : ${modulos}" class="col-md-3 mb-4"><!-- itera este card por cada elemento en la lista videojuegos -->
              <!-- //4 columnas de 3 lugares de ancho -->
              <div class="card">
-                 <img src="/img/estadisticas.png" class="card-img-top" alt="Estadísticas ">
+                 <img th:src="${modulo.imagen}" class="card-img-top" alt="Imagen módulo">
                  <div class="card-body">
-                     <h5 class="card-title">Estadísticas</h5>
-                     <p class="card-text">Sigue tu evolución</p>
+                     <h5 th:text="${modulo.nombre}" class="card-title"></h5>
+                     <p th:text="${modulo.descripcion}" class="card-text"></p>
                      <div class="card-footer text-muted">
-                         <a href="#" class="btn btn-primary">Ir a tus estadísticas</a>
+                         <a href="#" th:text="${modulo.textoBoton}" class="btn btn-primary"></a>
                      </div>
                  </div>
              </div>
          </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="/img/temario.png" class="card-img-top" alt="Temario ">
-                <div class="card-body">
-                    <h5 class="card-title">Temario</h5>
-                    <p class="card-text">¡Descarga tu temario!</p>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Ir a tu temario</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="/img/Imagen chat ia.png" class="card-img-top" alt="Chat IA ">
-                <div class="card-body">
-                    <h5 class="card-title">Chat Oppi</h5>
-                    <p class="card-text">Habla con Oppi y estudia con él</p>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Chat de Oppi</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="/img/apuntes.png" class="card-img-top" alt="Apuntes ">
-                <div class="card-body">
-                    <h5 class="card-title">Tus archivos</h5>
-                    <p class="card-text">Sube tus esquemas y apuntes</p>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Ir a tus archivos</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="/img/flashcards.png" class="card-img-top" alt="Flashcards ">
-                <div class="card-body">
-                    <h5 class="card-title">Tus flashcards</h5>
-                    <p class="card-text">Crea y estudia con tus flashcards</p>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Ir a tus flashcards</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="/img/video.png" class="card-img-top" alt="Videos ">
-                <div class="card-body">
-                    <h5 class="card-title">Tus videos</h5>
-                    <p class="card-text">Guarda enlaces a videos</p>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Ir a tus videos</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="/img/calendario.png" class="card-img-top" alt="Calendario ">
-                <div class="card-body">
-                    <h5 class="card-title">Tu calendario</h5>
-                    <p class="card-text">¡Organizate!</p>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Ir a tu calendario</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <img src="/img/tienda.png" class="card-img-top" alt="Tienda ">
-                <div class="card-body">
-                    <h5 class="card-title">Tienda</h5>
-                    <p class="card-text">Compra todo lo que necesitas</p>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Ir a la tienda</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
     </div>
 </div>
 
