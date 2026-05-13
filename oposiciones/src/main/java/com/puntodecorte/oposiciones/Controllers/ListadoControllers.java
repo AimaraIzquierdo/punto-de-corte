@@ -17,10 +17,20 @@ public class ListadoControllers {
         this.modulosService = modulosService;
     }
 
-    @RequestMapping ("/")
+    @RequestMapping("/")
     public String listarModulos(Model model){
+
         List<modulos> modulos = modulosService.listarModulos();
+
         model.addAttribute("modulos", modulos);
+
         return "Listado";
     }
+
+    @RequestMapping("/videos")
+    public String mostrarVideos(){
+
+        return "videos";
+    }
+
 }

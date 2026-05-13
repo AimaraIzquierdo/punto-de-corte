@@ -1,78 +1,183 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Punto de corte</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous">
+
     <link href="css/cssinicial.css" rel="stylesheet">
+
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary"> <!-- Barra de navegación -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+
     <div class="container-fluid">
+
         <a class="navbar-brand" href="#">
-            <img src="img/favicon_escudo.svg" alt="Logo" class="d-inline-block" style="width: 40px; height: auto;">
+            <img src="img/favicon_escudo.svg"
+                 alt="Logo"
+                 class="d-inline-block"
+                 style="width: 40px; height: auto;">
+
             Punto de corte
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
             <span class="navbar-toggler-icon"></span>
+
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Estadísticas</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Temario
+                    <a class="nav-link active"
+                       aria-current="page"
+                       href="#">
+                        Inicio
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    <a class="nav-link" href="#">
+                        Estadísticas
+                    </a>
                 </li>
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+
+                        Temario
+
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Guardia Civil
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Policía Nacional
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Bomberos
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
             </ul>
+
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn btn-outline-success" type="submit">Search</button>
+
+                <input class="form-control me-2"
+                       type="search"
+                       placeholder="Buscar"
+                       aria-label="Search"/>
+
+                <button class="btn btn-outline-success" type="submit">
+                    Buscar
+                </button>
+
             </form>
+
         </div>
+
     </div>
+
 </nav>
 
-
-
-
-
 <div class="container mt-4 func-estilo">
+
     <div class="row">
-         <div th:each="modulo : ${modulos}" class="col-md-3 mb-4"><!-- itera este card por cada elemento en la lista videojuegos -->
-             <!-- //4 columnas de 3 lugares de ancho -->
-             <div class="card">
-                 <img th:src="${modulo.imagen}" class="card-img-top" alt="Imagen módulo">
-                 <div class="card-body">
-                     <h5 th:text="${modulo.nombre}" class="card-title"></h5>
-                     <p th:text="${modulo.descripcion}" class="card-text"></p>
-                     <div class="card-footer text-muted">
-                         <a href="#" th:text="${modulo.textoBoton}" class="btn btn-primary"></a>
-                     </div>
-                 </div>
-             </div>
-         </div>
+
+        <div th:each="modulo : ${modulos}" class="col-md-3 mb-4">
+
+            <div class="card h-100 shadow-sm">
+
+                <img th:src="${modulo.imagen}"
+                     class="card-img-top"
+                     alt="Imagen módulo">
+
+                <div class="card-body">
+
+                    <h5 th:text="${modulo.nombre}"
+                        class="card-title">
+                    </h5>
+
+                    <p th:text="${modulo.descripcion}"
+                       class="card-text">
+                    </p>
+
+                </div>
+
+                <div class="card-footer text-center">
+
+                    <!-- BOTON NORMAL -->
+                    <a th:if="${modulo.nombre != 'Tus videos'}"
+                       href="#"
+                       th:text="${modulo.textoBoton}"
+                       class="btn btn-primary">
+                    </a>
+
+                    <!-- BOTON VIDEOS -->
+                    <a th:if="${modulo.nombre == 'Tus videos'}"
+                       href="/videos"
+                       th:text="${modulo.textoBoton}"
+                       class="btn btn-primary">
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous">
+</script>
+
 </body>
+
 </html>
