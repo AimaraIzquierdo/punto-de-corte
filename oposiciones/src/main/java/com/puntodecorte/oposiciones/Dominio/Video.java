@@ -1,12 +1,10 @@
 package com.puntodecorte.oposiciones.Dominio;
 
 public class Video {
-
     private String titulo;
     private String url;
 
-    public Video() {
-    }
+    public Video() {}
 
     public Video(String titulo, String url) {
         this.titulo = titulo;

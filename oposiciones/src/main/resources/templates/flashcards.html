@@ -39,6 +39,13 @@
             margin-bottom:20px;
         }
 
+        .botones-flashcard{
+            display:flex;
+            gap:10px;
+            margin-top:15px;
+            flex-wrap:wrap;
+        }
+
     </style>
 
 </head>
@@ -148,12 +155,21 @@
                     ¿Cuántos temas tiene el temario?
                 </h4>
 
-                <button class="btn btn-light mt-3"
-                        onclick="mostrarRespuesta(this)">
+                <div class="botones-flashcard">
+                    <button class="btn btn-light btn-sm"
+                            onclick="mostrarRespuesta(this)">
 
-                    Ver respuesta
+                        Ver respuesta
 
-                </button>
+                    </button>
+
+                    <button class="btn btn-danger btn-sm"
+                            onclick="eliminarFlashcard(this)">
+
+                        Eliminar
+
+                    </button>
+                </div>
 
                 <div class="respuesta">
 
@@ -196,7 +212,7 @@
     function mostrarRespuesta(boton){
 
         let respuesta =
-            boton.parentElement.querySelector(".respuesta");
+            boton.parentElement.parentElement.querySelector(".respuesta");
 
         if(respuesta.style.display === "block"){
 
@@ -208,6 +224,12 @@
             respuesta.style.display = "block";
             boton.innerText = "Ocultar respuesta";
         }
+    }
+
+    function eliminarFlashcard(boton){
+        // Sube dos niveles: button -> botones-flashcard -> flashcard -> col-md-4
+        let tarjeta = boton.parentElement.parentElement.parentElement;
+        tarjeta.remove();
     }
 
     function crearFlashcard(){
@@ -251,12 +273,21 @@
 
                     <h4>${pregunta}</h4>
 
-                    <button class="btn btn-light mt-3"
-                            onclick="mostrarRespuesta(this)">
+                    <div class="botones-flashcard">
+                        <button class="btn btn-light btn-sm"
+                                onclick="mostrarRespuesta(this)">
 
-                        Ver respuesta
+                            Ver respuesta
 
-                    </button>
+                        </button>
+
+                        <button class="btn btn-danger btn-sm"
+                                onclick="eliminarFlashcard(this)">
+
+                            Eliminar
+
+                        </button>
+                    </div>
 
                     <div class="respuesta">
 
