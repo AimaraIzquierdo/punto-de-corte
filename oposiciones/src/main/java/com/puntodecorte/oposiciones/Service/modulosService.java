@@ -17,6 +17,7 @@ public class modulosService {
         modulo1.setDescripcion("Sigue tu evolución");
         modulo1.setImagen("/img/estadisticas.png");
         modulo1.setTextoBoton("Ir a tus estadísticas");
+        modulo1.setRuta("/estadisticas");
         listaModulos.add(modulo1);
 
         modulos modulo2 = new modulos();
@@ -24,6 +25,7 @@ public class modulosService {
         modulo2.setDescripcion("¡Descarga tu temario!");
         modulo2.setImagen("/img/temario.png");
         modulo2.setTextoBoton("Ir a tu temario");
+        modulo2.setRuta("/temario");
         listaModulos.add(modulo2);
 
         modulos modulo3 = new modulos();
@@ -31,6 +33,7 @@ public class modulosService {
         modulo3.setDescripcion("Habla con Oppi y estudia con él");
         modulo3.setImagen("/img/Imagen chat ia.png");
         modulo3.setTextoBoton("Chat de Oppi");
+        modulo3.setRuta("/chat");
         listaModulos.add(modulo3);
 
         modulos modulo4 = new modulos();
@@ -38,6 +41,7 @@ public class modulosService {
         modulo4.setDescripcion("Ve tus esquemas y apuntes");
         modulo4.setImagen("/img/apuntes.png");
         modulo4.setTextoBoton("Ir a tus archivos");
+        modulo4.setRuta("/archivos");
         listaModulos.add(modulo4);
 
         modulos modulo5 = new modulos();
@@ -45,6 +49,7 @@ public class modulosService {
         modulo5.setDescripcion("Crea y estudia con tus flashcards");
         modulo5.setImagen("/img/flashcards.png");
         modulo5.setTextoBoton("Ir a tus flashcards");
+        modulo5.setRuta("/flashcards");
         listaModulos.add(modulo5);
 
         modulos modulo6 = new modulos();
@@ -52,6 +57,7 @@ public class modulosService {
         modulo6.setDescripcion("Guarda enlaces a videos");
         modulo6.setImagen("/img/video.png");
         modulo6.setTextoBoton("Ir a tus videos");
+        modulo6.setRuta("/videos");
         listaModulos.add(modulo6);
 
         modulos modulo7 = new modulos();
@@ -59,6 +65,7 @@ public class modulosService {
         modulo7.setDescripcion("¡Organízate!");
         modulo7.setImagen("/img/calendario.png");
         modulo7.setTextoBoton("Ir a tu calendario");
+        modulo7.setRuta("/calendario");
         listaModulos.add(modulo7);
 
         modulos modulo8 = new modulos();
@@ -66,6 +73,7 @@ public class modulosService {
         modulo8.setDescripcion("Compra todo lo que necesitas");
         modulo8.setImagen("/img/tienda.png");
         modulo8.setTextoBoton("Ir a la tienda");
+        modulo8.setRuta("/tienda");
         listaModulos.add(modulo8);
 
         return listaModulos;
