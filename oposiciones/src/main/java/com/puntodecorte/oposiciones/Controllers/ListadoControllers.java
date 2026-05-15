@@ -4,7 +4,7 @@ import com.puntodecorte.oposiciones.Dominio.modulos;
 import com.puntodecorte.oposiciones.Service.modulosService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -17,26 +17,21 @@ public class ListadoControllers {
         this.modulosService = modulosService;
     }
 
-    @RequestMapping("/")
+    /* ================= HOME ================= */
+
+    @GetMapping("/")
     public String listarModulos(Model model){
 
         List<modulos> modulos = modulosService.listarModulos();
-
         model.addAttribute("modulos", modulos);
 
         return "Listado";
     }
 
-    @RequestMapping("/videos")
-    public String mostrarVideos(){
+    /* ================= SUSHITO IA ================= */
 
-        return "videos";
+    @GetMapping("/sushito")
+    public String mostrarSushito(){
+        return "sushito";
     }
-
-    @RequestMapping("/flashcards")
-    public String mostrarFlashcards(){
-
-        return "flashcards";
-    }
-
 }
