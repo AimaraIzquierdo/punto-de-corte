@@ -149,16 +149,7 @@
 
                 <div class="card-footer text-center">
 
-                    <!-- BOTON NORMAL -->
-                    <a th:if="${modulo.nombre != 'Tus videos'}"
-                       href="#"
-                       th:text="${modulo.textoBoton}"
-                       class="btn btn-primary">
-                    </a>
-
-                    <!-- BOTON VIDEOS -->
-                    <a th:if="${modulo.nombre == 'Tus videos'}"
-                       href="/videos"
+                    <a th:href="${modulo.ruta}"
                        th:text="${modulo.textoBoton}"
                        class="btn btn-primary">
                     </a>

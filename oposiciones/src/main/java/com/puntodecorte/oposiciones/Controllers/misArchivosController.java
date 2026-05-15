@@ -1,0 +1,50 @@
+package com.puntodecorte.oposiciones.Controllers;
+
+import com.puntodecorte.oposiciones.Dominio.misArchivos;
+import com.puntodecorte.oposiciones.Service.misArchivosService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+@Controller
+public class misArchivosController {
+
+    private final misArchivosService archivoService;
+
+    public misArchivosController(misArchivosService archivoService) {
+        this.archivoService = archivoService;
+    }
+
+    @GetMapping("/archivos")
+    public String verArchivos(Model model) {
+        model.addAttribute("archivos", archivoService.listarArchivos());
+        return "misArchivos";
+    }
+
+    @PostMapping("/subir")
+    public String subirArchivo(@RequestParam("file") MultipartFile file) throws IOException {
+        archivoService.subirArchivo(file);
+        return "redirect:/archivos";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarArchivo(@PathVariable Long id) throws IOException {
+        archivoService.borrarArchivo(id);
+        return "redirect:/archivos";
+    }
+
+    @GetMapping("/ver/{id}")
+    @ResponseBody
+    public Resource verArchivo(@PathVariable Long id) throws IOException {
+        misArchivos archivo = archivoService.obtenerArchivo(id);
+        Path path = Paths.get(archivo.getRuta());
+        return new UrlResource(path.toUri());
+    }
+}
