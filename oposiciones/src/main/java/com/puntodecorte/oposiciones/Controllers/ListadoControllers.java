@@ -33,4 +33,10 @@ public class ListadoControllers {
         return "videos";
     }
 
+    @RequestMapping("/flashcards")
+    public String mostrarFlashcards(){
+
+        return "flashcards";
+    }
+
 }
