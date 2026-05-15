@@ -5,6 +5,7 @@ public class modulos {
     public String descripcion;
     public String imagen;
     public String textoBoton;
+    public String ruta;
 
     public String getNombre() {
         return nombre;
@@ -37,4 +38,8 @@ public class modulos {
     public void setTextoBoton(String textoBoton) {
         this.textoBoton = textoBoton;
     }
+
+    public String getRuta() { return ruta; }
+
+    public void setRuta(String ruta) { this.ruta = ruta; }
 }
