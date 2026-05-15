@@ -4,10 +4,13 @@ import com.puntodecorte.oposiciones.Dominio.misArchivos;
 import com.puntodecorte.oposiciones.Service.misArchivosService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -42,9 +45,17 @@ public class misArchivosController {
 
     @GetMapping("/ver/{id}")
     @ResponseBody
-    public Resource verArchivo(@PathVariable Long id) throws IOException {
+    public ResponseEntity<Resource> verArchivo(@PathVariable Long id) throws IOException {
+
         misArchivos archivo = archivoService.obtenerArchivo(id);
+
         Path path = Paths.get(archivo.getRuta());
-        return new UrlResource(path.toUri());
+        Resource resource = new UrlResource(path.toUri());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=\"" + archivo.getNombre() + "\"")
+                .contentType(MediaType.parseMediaType(archivo.getTipo()))
+                .body(resource);
     }
 }
