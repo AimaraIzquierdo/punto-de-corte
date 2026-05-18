@@ -17,11 +17,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Controller
-public class misArchivosController {
+public class MisArchivosController {
 
     private final misArchivosService archivoService;
 
-    public misArchivosController(misArchivosService archivoService) {
+    public MisArchivosController(misArchivosService archivoService) {
         this.archivoService = archivoService;
     }
 
