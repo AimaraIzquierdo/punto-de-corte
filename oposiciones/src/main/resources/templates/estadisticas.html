@@ -38,6 +38,10 @@
             border-radius: 10px;
         }
 
+        .modal-grafica-container {
+            height: 500px;
+        }
+
         canvas {
             cursor: pointer;
         }
@@ -127,19 +131,19 @@
 
     <div class="chart">
         <h3>Teoría</h3>
-        <canvas id="graficaTeoria"></canvas>
+        <canvas id="graficaTeoria" height="120"></canvas>
         <p id="mediaTeoria"></p>
     </div>
 
     <div class="chart">
         <h3>Práctica</h3>
-        <canvas id="graficaPractica"></canvas>
+        <canvas id="graficaPractica" height="120"></canvas>
         <p id="mediaPractica"></p>
     </div>
 
     <div class="chart">
         <h3>Otros</h3>
-        <canvas id="graficaOtros"></canvas>
+        <canvas id="graficaOtros" height="120"></canvas>
         <p id="mediaOtros"></p>
     </div>
 
@@ -156,7 +160,9 @@
             </div>
 
             <div class="modal-body">
-                <canvas id="graficaGrande"></canvas>
+                <div class="modal-grafica-container">
+                    <canvas id="graficaGrande"></canvas>
+                </div>
             </div>
 
         </div>
@@ -196,7 +202,7 @@
     function crearGrafica(id, datosFiltrados, mediaId) {
 
         // ordenar
-        datosFiltrados.sort((a,b) => new Date(a.fecha) - new Date(b.fecha));
+        datosFiltrados.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
         let porMateria = agruparPorMateria(datosFiltrados);
 
@@ -214,12 +220,15 @@
             data: {
                 labels: labels,
                 datasets: datasets
+            },
+            options: {
+                responsive: true
             }
         });
 
         // MEDIA
         let notas = datosFiltrados.map(d => d.nota);
-        let media = notas.length ? notas.reduce((a,b)=>a+b)/notas.length : 0;
+        let media = notas.length ? notas.reduce((a, b) => a + b) / notas.length : 0;
 
         if (mediaId) {
             document.getElementById(mediaId).innerText =
@@ -227,32 +236,66 @@
         }
 
         // CLICK PARA AGRANDAR
+
         document.getElementById(id).addEventListener("click", () => {
 
-            let modal = new bootstrap.Modal(document.getElementById('graficaModal'));
+            let modalElement = document.getElementById('graficaModal');
+
+            let modal = new bootstrap.Modal(modalElement);
 
             document.getElementById("modalTitulo").innerText = id;
 
-            setTimeout(() => {
+            // reconstruir datasets desde cero
+            let datasetsGrande = Object.keys(porMateria).map((m, i) => ({
+                label: m,
+                data: porMateria[m].map(x => x.nota),
+                borderColor: colores(i),
+                fill: false
+            }));
 
-                if (window.graficaGrande) window.graficaGrande.destroy();
+            modal.show();
 
+            modalElement.addEventListener('shown.bs.modal', function () {
+
+                // destruir anterior
+                if (window.graficaGrande) {
+                    window.graficaGrande.destroy();
+                }
+
+                // limpiar canvas
+                document.getElementById('graficaGrande').getContext('2d')
+                    .clearRect(
+                        0,
+                        0,
+                        document.getElementById('graficaGrande').width,
+                        document.getElementById('graficaGrande').height
+                    );
+
+                // crear nueva gráfica
                 window.graficaGrande = new Chart(
                     document.getElementById('graficaGrande'),
                     {
                         type: 'line',
-                        data: chart.data,
+
+                        data: {
+                            labels: labels,
+                            datasets: datasetsGrande
+                        },
+
                         options: {
                             responsive: true
                         }
                     }
                 );
 
-            }, 200);
+            }, {once: true});
 
-            modal.show();
         });
     }
+
+
+
+
 
     /* ========= INICIALIZACIÓN ========= */
 

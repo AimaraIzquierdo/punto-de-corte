@@ -8,3 +8,14 @@
     object-position: center;
 }
 
+.chart {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+canvas {
+    cursor: pointer;
+}
