@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Estadísticas</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container-charts {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .chart {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .modal-grafica-container {
+            height: 500px;
+        }
+
+        canvas {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR (NO TOCADO) -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="#">
+            <img src="img/favicon_escudo.svg"
+                 alt="Logo"
+                 class="d-inline-block"
+                 style="width: 40px; height: auto;">
+
+            Punto de corte
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">
+                        Inicio
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Estadísticas
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<h1>Estadísticas</h1>
+
+<!-- FORMULARIO -->
+<div class="panel">
+    <form method="post" action="/estadisticas/guardar">
+
+        <input type="text" name="titulo" placeholder="Título" required><br><br>
+
+        <input type="text" name="materia" placeholder="Materia" required><br><br>
+
+        <select name="tipo" required>
+            <option value="TEORIA">Teoría</option>
+            <option value="PRACTICA">Práctica</option>
+            <option value="OTROS">Otros</option>
+        </select>
+
+        <br><br>
+
+        <input type="date" name="fecha" required><br><br>
+
+        <input type="number" step="0.1" name="nota" placeholder="Nota" required><br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+</div>
+
+<!-- GRÁFICAS -->
+<div class="container-charts">
+
+    <div class="chart">
+        <h3>Teoría</h3>
+        <canvas id="graficaTeoria" height="120"></canvas>
+        <p id="mediaTeoria"></p>
+    </div>
+
+    <div class="chart">
+        <h3>Práctica</h3>
+        <canvas id="graficaPractica" height="120"></canvas>
+        <p id="mediaPractica"></p>
+    </div>
+
+    <div class="chart">
+        <h3>Otros</h3>
+        <canvas id="graficaOtros" height="120"></canvas>
+        <p id="mediaOtros"></p>
+    </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="graficaModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitulo">Gráfica</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-grafica-container">
+                    <canvas id="graficaGrande"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+
+    let datos = /*[[${estadisticas}]]*/ [];
+
+    /* ========= UTILIDADES ========= */
+
+    function filtrar(tipo) {
+        return datos.filter(d => d.tipo === tipo);
+    }
+
+    function agruparPorMateria(lista) {
+        let map = {};
+
+        lista.forEach(d => {
+            if (!map[d.materia]) map[d.materia] = [];
+            map[d.materia].push(d);
+        });
+
+        return map;
+    }
+
+    function colores(i) {
+        const c = ['red','blue','green','orange','purple','brown','black'];
+        return c[i % c.length];
+    }
+
+    /* ========= CREAR GRÁFICA ========= */
+
+    function crearGrafica(id, datosFiltrados, mediaId) {
+
+        // ordenar
+        datosFiltrados.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+        let porMateria = agruparPorMateria(datosFiltrados);
+
+        let datasets = Object.keys(porMateria).map((m, i) => ({
+            label: m,
+            data: porMateria[m].map(x => x.nota),
+            borderColor: colores(i),
+            fill: false
+        }));
+
+        let labels = datosFiltrados.map(d => d.fecha);
+
+        let chart = new Chart(document.getElementById(id), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // MEDIA
+        let notas = datosFiltrados.map(d => d.nota);
+        let media = notas.length ? notas.reduce((a, b) => a + b) / notas.length : 0;
+
+        if (mediaId) {
+            document.getElementById(mediaId).innerText =
+                "Media: " + media.toFixed(2);
+        }
+
+        // CLICK PARA AGRANDAR
+
+        document.getElementById(id).addEventListener("click", () => {
+
+            let modalElement = document.getElementById('graficaModal');
+
+            let modal = new bootstrap.Modal(modalElement);
+
+            document.getElementById("modalTitulo").innerText = id;
+
+            // reconstruir datasets desde cero
+            let datasetsGrande = Object.keys(porMateria).map((m, i) => ({
+                label: m,
+                data: porMateria[m].map(x => x.nota),
+                borderColor: colores(i),
+                fill: false
+            }));
+
+            modal.show();
+
+            modalElement.addEventListener('shown.bs.modal', function () {
+
+                // destruir anterior
+                if (window.graficaGrande) {
+                    window.graficaGrande.destroy();
+                }
+
+                // limpiar canvas
+                document.getElementById('graficaGrande').getContext('2d')
+                    .clearRect(
+                        0,
+                        0,
+                        document.getElementById('graficaGrande').width,
+                        document.getElementById('graficaGrande').height
+                    );
+
+                // crear nueva gráfica
+                window.graficaGrande = new Chart(
+                    document.getElementById('graficaGrande'),
+                    {
+                        type: 'line',
+
+                        data: {
+                            labels: labels,
+                            datasets: datasetsGrande
+                        },
+
+                        options: {
+                            responsive: true
+                        }
+                    }
+                );
+
+            }, {once: true});
+
+        });
+    }
+
+
+
+
+
+    /* ========= INICIALIZACIÓN ========= */
+
+    crearGrafica("graficaTeoria", filtrar("TEORIA"), "mediaTeoria");
+    crearGrafica("graficaPractica", filtrar("PRACTICA"), "mediaPractica");
+    crearGrafica("graficaOtros", filtrar("OTROS"), "mediaOtros");
+
+</script>
+
+</body>
+</html>
