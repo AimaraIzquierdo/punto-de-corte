@@ -2,117 +2,12 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
     <meta charset="UTF-8">
     <title>Videos</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-
-        body{
-            background:#f6f7fb;
-            color:#222;
-        }
-
-        /* ================= NAV ================= */
-
-        .navbar{
-            background:#ffffff !important;
-            border-bottom:1px solid #e6e6e6;
-        }
-
-        .navbar-brand{
-            font-weight:700;
-            color:#333 !important;
-        }
-
-        /* ================= TITULO ================= */
-
-        .page-title{
-            margin-top:30px;
-            margin-bottom:25px;
-            font-weight:700;
-            color:#333;
-        }
-
-        /* ================= FORM ================= */
-
-        .form-card{
-            background:#ffffff;
-            border:1px solid #e6e6e6;
-            border-radius:14px;
-            padding:20px;
-            box-shadow:0 2px 10px rgba(0,0,0,0.04);
-        }
-
-        .form-control{
-            border:1px solid #dcdcdc;
-        }
-
-        .form-control:focus{
-            border-color:#b5b5b5;
-            box-shadow:none;
-        }
-
-        label{
-            margin-bottom:6px;
-            font-weight:500;
-            color:#444;
-        }
-
-        /* ================= VIDEO CARD ================= */
-
-        .video-card{
-            background:#ffffff;
-            border:1px solid #e6e6e6;
-            border-radius:14px;
-            overflow:hidden;
-            transition:0.2s;
-            box-shadow:0 2px 10px rgba(0,0,0,0.04);
-        }
-
-        .video-card:hover{
-            transform:scale(1.02);
-        }
-
-        iframe{
-            width:100%;
-            height:200px;
-        }
-
-        .video-body{
-            padding:14px;
-        }
-
-        .video-title{
-            font-size:15px;
-            font-weight:600;
-            margin-bottom:10px;
-            color:#333;
-        }
-
-        /* ================= BOTONES ================= */
-
-        .btn-primary{
-            background:#1976d2;
-            border:none;
-        }
-
-        .btn-primary:hover{
-            background:black;
-        }
-
-        .btn-outline-danger{
-            border:1px solid #dc3545;
-            color:#dc3545;
-        }
-
-        .btn-outline-danger:hover{
-            background:#dc3545;
-            color:white;
-        }
-
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
 </head>
 
@@ -182,52 +77,73 @@
 
 </nav>
 
-<div class="container">
+<div class="container mt-5">
 
-    <h2 class="page-title">Videos</h2>
+    <h2 class="mb-4">Videos</h2>
 
-    <!-- ================= FORM ================= -->
+    <!-- ================= FORMULARIO ================= -->
 
-    <div class="form-card mb-4">
+    <form th:action="@{/videos}"
+          method="post"
+          th:object="${nuevoVideo}"
+          class="mb-5">
 
-        <form th:action="@{/videos}" method="post" th:object="${nuevoVideo}">
+        <div class="mb-3">
 
-            <div class="mb-3">
-                <label>Título</label>
-                <input type="text" class="form-control" th:field="*{titulo}">
-            </div>
+            <label class="form-label">Título</label>
 
-            <div class="mb-3">
-                <label>URL YouTube</label>
-                <input type="text" class="form-control" th:field="*{url}">
-            </div>
+            <input type="text"
+                   class="form-control"
+                   th:field="*{titulo}">
+        </div>
 
-            <button class="btn btn-primary">
-                Añadir vídeo
-            </button>
+        <div class="mb-3">
 
-        </form>
+            <label class="form-label">URL YouTube</label>
 
-    </div>
+            <input type="text"
+                   class="form-control"
+                   th:field="*{url}">
+        </div>
 
-    <!-- ================= VIDEOS ================= -->
+        <button class="btn btn-primary">
+            Añadir vídeo
+        </button>
+
+    </form>
+
+    <!-- ================= LISTA VIDEOS ================= -->
 
     <div class="row g-4">
 
-        <div class="col-md-4" th:each="video, stat : ${videos}">
+        <div class="col-md-4"
+             th:each="video, stat : ${videos}">
 
-            <div class="video-card">
+            <div class="card h-100">
 
-                <iframe th:src="${video.url}" allowfullscreen></iframe>
+                <iframe th:src="${video.url}"
+                        width="100%"
+                        height="220"
+                        allowfullscreen>
+                </iframe>
 
-                <div class="video-body">
+                <div class="card-body">
 
-                    <div class="video-title" th:text="${video.titulo}"></div>
+                    <h5 class="card-title"
+                        th:text="${video.titulo}">
+                    </h5>
 
-                    <a class="btn btn-outline-danger btn-sm"
-                       th:href="@{'/videos/eliminar/' + ${stat.index}}">
-                        Eliminar
-                    </a>
+                    <!-- BOTÓN ELIMINAR -->
+
+                    <form th:action="@{'/videos/eliminar/' + ${stat.index}}"
+                          method="post">
+
+                        <button type="submit"
+                                class="btn btn-outline-danger btn-sm">
+                            Eliminar
+                        </button>
+
+                    </form>
 
                 </div>
 

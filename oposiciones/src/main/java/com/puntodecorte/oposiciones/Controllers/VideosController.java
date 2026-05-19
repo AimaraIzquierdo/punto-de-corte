@@ -39,7 +39,6 @@ public class VideosController {
 
     /* ================= ELIMINAR VÍDEO ================= */
 
-    // 🔥 CAMBIO IMPORTANTE: mejor POST que GET (correcto para TFG)
     @PostMapping("/videos/eliminar/{id}")
     public String eliminarVideo(@PathVariable int id) {
 
@@ -50,31 +49,44 @@ public class VideosController {
         return "redirect:/videos";
     }
 
-    /* ================= UTIL ================= */
+    /* ================= CONVERTIR URL ================= */
 
     private String toEmbedUrl(String url) {
 
         if (url == null) return "";
 
         try {
+
             URI uri = new URI(url);
-            String host = uri.getHost() == null ? "" : uri.getHost().toLowerCase();
+
+            String host = uri.getHost() == null
+                    ? ""
+                    : uri.getHost().toLowerCase();
+
             String query = uri.getQuery();
 
-            // YouTube normal
+            // URL normal YouTube
             if (host.contains("youtube.com") && query != null) {
+
                 for (String part : query.split("&")) {
+
                     if (part.startsWith("v=")) {
-                        return "https://www.youtube.com/embed/" + part.substring(2);
+
+                        return "https://www.youtube.com/embed/"
+                                + part.substring(2);
                     }
                 }
             }
 
-            // YouTube corto
+            // URL corta youtu.be
             if (host.contains("youtu.be")) {
+
                 String path = uri.getPath();
+
                 if (path != null && path.length() > 1) {
-                    return "https://www.youtube.com/embed/" + path.substring(1);
+
+                    return "https://www.youtube.com/embed/"
+                            + path.substring(1);
                 }
             }
 

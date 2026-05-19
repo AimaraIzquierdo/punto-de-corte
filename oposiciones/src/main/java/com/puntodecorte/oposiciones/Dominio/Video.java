@@ -1,6 +1,7 @@
 package com.puntodecorte.oposiciones.Dominio;
 
 public class Video {
+
     private String titulo;
     private String url;
 
