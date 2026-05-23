@@ -6,15 +6,27 @@ import jakarta.persistence.*;
 @Table(name = "Flashcards")
 public class Flashcard {
 
+    @ManyToOne
+    @JoinColumn(name = "id_usu")
+    private Usuario usuario;
+
+    public Usuario getUsuario() { return usuario; }
+
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_flash;
 
+    @Column(name = "preg_flash")
     private String pregunta;
 
+    @Column(name = "resp_flash")
     private String respuesta;
 
-    private String tema;
+    @ManyToOne
+    @JoinColumn(name = "id_tema")
+    private Tema tema;
 
     private String color;
 
@@ -23,7 +35,7 @@ public class Flashcard {
 
     public Flashcard(String pregunta,
                      String respuesta,
-                     String tema,
+                     Tema tema,
                      String color) {
 
         this.pregunta = pregunta;
@@ -56,11 +68,11 @@ public class Flashcard {
         this.respuesta = respuesta;
     }
 
-    public String getTema() {
+    public Tema getTema() {
         return tema;
     }
 
-    public void setTema(String tema) {
+    public void setTema(Tema tema) {
         this.tema = tema;
     }
 
@@ -71,4 +83,8 @@ public class Flashcard {
     public void setColor(String color) {
         this.color = color;
     }
+
+
 }
+
+

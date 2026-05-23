@@ -1,11 +1,16 @@
 package com.puntodecorte.oposiciones.Dominio;
 
-public class modulos {
+import java.util.Set;
+
+public class Modulo {
     public String nombre;
     public String descripcion;
     public String imagen;
     public String textoBoton;
     public String ruta;
+
+    private Set<Rol> rolesPermitidos;
+
 
     public String getNombre() {
         return nombre;
@@ -42,4 +47,8 @@ public class modulos {
     public String getRuta() { return ruta; }
 
     public void setRuta(String ruta) { this.ruta = ruta; }
+
+    public Set<Rol> getRolesPermitidos() { return rolesPermitidos; }
+
+    public void setRolesPermitidos(Set<Rol> rolesPermitidos) { this.rolesPermitidos = rolesPermitidos; }
 }

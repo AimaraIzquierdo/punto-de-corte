@@ -1,14 +1,4 @@
 -- ======================
--- ROLES
--- ======================
-
-CREATE TABLE IF NOT EXISTS Roles (
-                                     id_rol INT AUTO_INCREMENT PRIMARY KEY,
-                                     name_rol VARCHAR(30),
-    descr_rol VARCHAR(100)
-    );
-
--- ======================
 -- ACADEMIAS
 -- ======================
 
@@ -198,15 +188,11 @@ CREATE TABLE IF NOT EXISTS Suscripciones (
 -- ======================
 
 CREATE TABLE IF NOT EXISTS Flashcards (
-                                          id_flash INT AUTO_INCREMENT PRIMARY KEY,
-
-                                          preg_flash TEXT,
-                                          resp_flash TEXT,
-
-                                          date_flash DATE,
-
-                                          visibilidad VARCHAR(20),
-
+    id_flash INT AUTO_INCREMENT PRIMARY KEY,
+    preg_flash TEXT,
+    resp_flash TEXT,
+    date_flash DATE,
+    visibilidad VARCHAR(20),
     id_usu INT,
     id_tema INT,
 
