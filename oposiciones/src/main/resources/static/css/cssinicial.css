@@ -19,3 +19,19 @@
 canvas {
     cursor: pointer;
 }
+
+/* Forzar color negro para el brand y los nav-links */
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: #000000 !important;
+}
+
+/* Opcional: mantener el efecto hover pero en negro/gris */
+.navbar .nav-link:hover {
+    color: #333333 !important;
+}
+
+/* Si quieres que el link activo también sea negro */
+.navbar .nav-link.active {
+    color: #000000 !important;
+}

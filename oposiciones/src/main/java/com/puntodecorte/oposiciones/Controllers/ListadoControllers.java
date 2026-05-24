@@ -1,7 +1,9 @@
 package com.puntodecorte.oposiciones.Controllers;
 
-import com.puntodecorte.oposiciones.Dominio.modulos;
-import com.puntodecorte.oposiciones.Service.modulosService;
+import com.puntodecorte.oposiciones.Dominio.Modulo;
+import com.puntodecorte.oposiciones.Dominio.Usuario;
+import com.puntodecorte.oposiciones.Service.ModuloService;
+import com.puntodecorte.oposiciones.Service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,19 +13,28 @@ import java.util.List;
 @Controller
 public class ListadoControllers {
 
-    private final modulosService modulosService;
+    private final ModuloService moduloService;
+    private final UsuarioService usuarioService;
 
-    public ListadoControllers(modulosService modulosService) {
-        this.modulosService = modulosService;
+    public ListadoControllers(ModuloService moduloService, UsuarioService usuarioService) {
+        this.moduloService = moduloService;
+        this.usuarioService = usuarioService;
     }
 
     /* ================= HOME ================= */
 
     @GetMapping("/")
+    public String inicio() {
+        return "redirect:/login";
+    }
+
+    @GetMapping("/home")
     public String listarModulos(Model model){
 
-        List<modulos> modulos = modulosService.listarModulos();
-        model.addAttribute("modulos", modulos);
+        List<Modulo> listaModulos = moduloService.listarModulos();
+        Usuario usuario = usuarioService.obtenerUsuarioActual();
+        model.addAttribute("modulos", listaModulos);
+        model.addAttribute("usuario", usuario);
 
         return "Listado";
     }
