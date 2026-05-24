@@ -13,13 +13,11 @@ public class Temario {
 
     private String nombre;
 
-    private String oposicion;
-
     private String ruta;
 
     private String tipo;
 
-    private Long tamano;
+    private String oposicion;
 
     private LocalDateTime fechaSubida;
 
@@ -38,14 +36,6 @@ public class Temario {
         this.nombre = nombre;
     }
 
-    public String getOposicion() {
-        return oposicion;
-    }
-
-    public void setOposicion(String oposicion) {
-        this.oposicion = oposicion;
-    }
-
     public String getRuta() {
         return ruta;
     }
@@ -62,12 +52,12 @@ public class Temario {
         this.tipo = tipo;
     }
 
-    public Long getTamano() {
-        return tamano;
+    public String getOposicion() {
+        return oposicion;
     }
 
-    public void setTamano(Long tamano) {
-        this.tamano = tamano;
+    public void setOposicion(String oposicion) {
+        this.oposicion = oposicion;
     }
 
     public LocalDateTime getFechaSubida() {

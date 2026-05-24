@@ -218,19 +218,52 @@
 
         <h5 class="mb-3">Crear flashcard</h5>
 
+        <form method="post"
+              th:action="@{/flashcards/guardar}">
+
+            <select class="form-select mb-2"
+                    name="idTema">
+
+                <option value="">
+                    Selecciona un tema
+                </option>
+
+                <option th:each="tema : ${temas}"
+                        th:value="${tema.id}"
+                        th:text="${tema.nombre}">
+                </option>
+
+            </select>
+
+            <input class="form-control mb-2"
+                   name="pregunta"
+                   placeholder="Pregunta">
+
+            <input class="form-control mb-2"
+                   name="respuesta"
+                   placeholder="Respuesta">
+
+            <button type="submit"
+                    class="btn btn-dark w-100">
+
+                Guardar flashcard
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- <div class="card p-3 mb-4">
+        <h5 class="mb-3">Crear flashcard</h5>
         <select class="form-select mb-2" id="tema"></select>
-
         <input class="form-control mb-2" id="pregunta" placeholder="Pregunta">
-
         <input class="form-control mb-2" id="respuesta" placeholder="Respuesta">
-
         <input type="color" class="form-control form-control-color mb-2" id="color" value="#2f2f2f">
-
         <button class="btn btn-dark w-100" onclick="crearFlashcard()">
             Crear flashcard
         </button>
-
-    </div>
+    </div>-->
 
     <!-- ================= TEMAS ================= -->
     <div id="temasContainer"></div>

@@ -1,55 +1,61 @@
 package com.puntodecorte.oposiciones.Controllers;
 
 import com.puntodecorte.oposiciones.Dominio.Video;
+import com.puntodecorte.oposiciones.Service.VideoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class VideosController {
 
-    private final List<Video> videos = new ArrayList<>();
+    private final VideoService videoService;
 
-    /* ================= LISTAR VÍDEOS ================= */
+    public VideosController(VideoService videoService) {
+        this.videoService = videoService;
+    }
+
+    /* ================= LISTAR ================= */
 
     @GetMapping("/videos")
     public String mostrarVideos(Model model) {
 
-        model.addAttribute("videos", videos);
-        model.addAttribute("nuevoVideo", new Video());
+        model.addAttribute("videos",
+                videoService.listarVideos());
+
+        model.addAttribute("nuevoVideo",
+                new Video());
 
         return "videos";
     }
 
-    /* ================= CREAR VÍDEO ================= */
+    /* ================= CREAR ================= */
 
     @PostMapping("/videos")
     public String guardarVideo(@ModelAttribute Video nuevoVideo) {
 
-        nuevoVideo.setUrl(toEmbedUrl(nuevoVideo.getUrl()));
-        videos.add(nuevoVideo);
+        nuevoVideo.setUrl(
+                toEmbedUrl(nuevoVideo.getUrl()));
+
+        videoService.guardarVideo(nuevoVideo);
 
         return "redirect:/videos";
     }
 
-    /* ================= ELIMINAR VÍDEO ================= */
+    /* ================= ELIMINAR ================= */
 
     @PostMapping("/videos/eliminar/{id}")
-    public String eliminarVideo(@PathVariable int id) {
+    public String eliminarVideo(@PathVariable Long id) {
 
-        if (id >= 0 && id < videos.size()) {
-            videos.remove(id);
-        }
+        videoService.eliminarVideo(id);
 
         return "redirect:/videos";
     }
 
-    /* ================= CONVERTIR URL ================= */
+    /* ================= UTIL ================= */
 
     private String toEmbedUrl(String url) {
 
@@ -65,8 +71,9 @@ public class VideosController {
 
             String query = uri.getQuery();
 
-            // URL normal YouTube
-            if (host.contains("youtube.com") && query != null) {
+            // youtube normal
+            if (host.contains("youtube.com")
+                    && query != null) {
 
                 for (String part : query.split("&")) {
 
@@ -78,7 +85,7 @@ public class VideosController {
                 }
             }
 
-            // URL corta youtu.be
+            // youtube corto
             if (host.contains("youtu.be")) {
 
                 String path = uri.getPath();

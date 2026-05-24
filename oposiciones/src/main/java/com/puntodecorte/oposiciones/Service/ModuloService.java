@@ -1,26 +1,34 @@
 package com.puntodecorte.oposiciones.Service;
 
-import com.puntodecorte.oposiciones.Dominio.modulos;
+import com.puntodecorte.oposiciones.Dominio.Modulo;
+import com.puntodecorte.oposiciones.Dominio.Rol;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
-public class modulosService {
+public class ModuloService {
 
-    public List<modulos> listarModulos() {
-        List<modulos> listaModulos = new ArrayList<>();
+    public List<Modulo> listarModulos() {
+        List<Modulo> listaModulos = new ArrayList<>();
 
-        modulos modulo1 = new modulos();
+        Modulo modulo1 = new Modulo();
         modulo1.setNombre("Estadísticas");
         modulo1.setDescripcion("Sigue tu evolución");
         modulo1.setImagen("/img/estadisticas.png");
         modulo1.setTextoBoton("Ir a tus estadísticas");
         modulo1.setRuta("/estadisticas");
+        modulo1.setRolesPermitidos(Set.of(
+                Rol.OPOFREE,
+                Rol.OPOPREMIUM,
+                Rol.OPOACADEMIA,
+                Rol.ADMIN
+        ));
         listaModulos.add(modulo1);
 
-        modulos modulo2 = new modulos();
+        Modulo modulo2 = new Modulo();
         modulo2.setNombre("Temario");
         modulo2.setDescripcion("¡Descarga tu temario!");
         modulo2.setImagen("/img/temario.png");
@@ -28,7 +36,7 @@ public class modulosService {
         modulo2.setRuta("/temario");
         listaModulos.add(modulo2);
 
-        modulos modulo3 = new modulos();
+        Modulo modulo3 = new Modulo();
         modulo3.setNombre("Chat Oppi");
         modulo3.setDescripcion("Habla con Oppi y estudia con él");
         modulo3.setImagen("/img/Imagen chat ia.png");
@@ -36,7 +44,7 @@ public class modulosService {
         modulo3.setRuta("/chat");
         listaModulos.add(modulo3);
 
-        modulos modulo4 = new modulos();
+        Modulo modulo4 = new Modulo();
         modulo4.setNombre("Tus archivos");
         modulo4.setDescripcion("Ve tus esquemas y apuntes");
         modulo4.setImagen("/img/apuntes.png");
@@ -44,7 +52,7 @@ public class modulosService {
         modulo4.setRuta("/archivos");
         listaModulos.add(modulo4);
 
-        modulos modulo5 = new modulos();
+        Modulo modulo5 = new Modulo();
         modulo5.setNombre("Tus flashcards");
         modulo5.setDescripcion("Crea y estudia con tus flashcards");
         modulo5.setImagen("/img/flashcards.png");
@@ -52,7 +60,7 @@ public class modulosService {
         modulo5.setRuta("/flashcards");
         listaModulos.add(modulo5);
 
-        modulos modulo6 = new modulos();
+        Modulo modulo6 = new Modulo();
         modulo6.setNombre("Tus videos");
         modulo6.setDescripcion("Guarda enlaces a videos");
         modulo6.setImagen("/img/video.png");
@@ -60,7 +68,7 @@ public class modulosService {
         modulo6.setRuta("/videos");
         listaModulos.add(modulo6);
 
-        modulos modulo7 = new modulos();
+        Modulo modulo7 = new Modulo();
         modulo7.setNombre("Tu calendario");
         modulo7.setDescripcion("¡Organízate!");
         modulo7.setImagen("/img/calendario.png");
@@ -68,7 +76,7 @@ public class modulosService {
         modulo7.setRuta("/calendario");
         listaModulos.add(modulo7);
 
-        modulos modulo8 = new modulos();
+        Modulo modulo8 = new Modulo();
         modulo8.setNombre("Tienda");
         modulo8.setDescripcion("Compra todo lo que necesitas");
         modulo8.setImagen("/img/tienda.png");

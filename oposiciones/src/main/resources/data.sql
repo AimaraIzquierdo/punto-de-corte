@@ -1,4 +1,4 @@
-INSERT INTO modulos (nombre, descripcion, imagen, texto_boton) VALUES
+INSERT INTO Modulos (nombre, descripcion, imagen, texto_boton) VALUES
                                                                    ('Estadísticas', 'Sigue tu evolución', '/img/estadisticas.png', 'Ir a tus estadísticas'),
 
                                                                    ('Temario', '¡Descarga tu temario!', '/img/temario.png', 'Ir a tu temario'),

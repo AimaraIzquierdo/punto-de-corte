@@ -2,18 +2,13 @@ package com.puntodecorte.oposiciones.Service;
 
 import com.puntodecorte.oposiciones.Dominio.Temario;
 import com.puntodecorte.oposiciones.Repository.TemarioRepository;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
 import java.nio.file.*;
-
 import java.time.LocalDateTime;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -25,111 +20,54 @@ public class TemarioService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public TemarioService(
-            TemarioRepository temarioRepository) {
-
-        this.temarioRepository =
-                temarioRepository;
+    public TemarioService(TemarioRepository temarioRepository) {
+        this.temarioRepository = temarioRepository;
     }
 
-    public void subirTemario(
-            MultipartFile file,
-            String oposicion)
-            throws IOException {
+    public void subirArchivo(MultipartFile file,
+                             String oposicion) throws IOException {
 
-        if (file.isEmpty()) {
+        String nombreOriginal = file.getOriginalFilename();
 
-            throw new RuntimeException(
-                    "El archivo está vacío");
+        String nombreUnico = UUID.randomUUID() + "_" + nombreOriginal;
+
+        Path rutaCarpeta = Paths.get(uploadDir);
+
+        if (!Files.exists(rutaCarpeta)) {
+            Files.createDirectories(rutaCarpeta);
         }
 
-        String nombreOriginal =
-                file.getOriginalFilename();
+        Path rutaCompleta = rutaCarpeta.resolve(nombreUnico);
 
-        String nombreUnico =
-                UUID.randomUUID()
-                        + "_"
-                        + nombreOriginal;
-
-        Path carpetaUploads =
-                Paths.get(uploadDir);
-
-        if (!Files.exists(carpetaUploads)) {
-
-            Files.createDirectories(
-                    carpetaUploads);
-        }
-
-        Path rutaCompleta =
-                carpetaUploads.resolve(
-                        nombreUnico);
-
-        Files.copy(
-                file.getInputStream(),
+        Files.copy(file.getInputStream(),
                 rutaCompleta,
-                StandardCopyOption.REPLACE_EXISTING
-        );
+                StandardCopyOption.REPLACE_EXISTING);
 
-        Temario temario =
-                new Temario();
+        Temario archivo = new Temario();
 
-        temario.setNombre(
-                nombreOriginal);
+        archivo.setNombre(nombreOriginal);
+        archivo.setRuta(rutaCompleta.toString());
+        archivo.setTipo(file.getContentType());
+        archivo.setOposicion(oposicion);
+        archivo.setFechaSubida(LocalDateTime.now());
 
-        temario.setOposicion(
-                oposicion);
-
-        temario.setRuta(
-                rutaCompleta.toAbsolutePath()
-                        .toString());
-
-        temario.setTipo(
-                file.getContentType());
-
-        temario.setTamano(
-                file.getSize());
-
-        temario.setFechaSubida(
-                LocalDateTime.now());
-
-        temarioRepository.save(
-                temario);
-
-        System.out.println(
-                "PDF GUARDADO EN: "
-                        + rutaCompleta.toAbsolutePath());
+        temarioRepository.save(archivo);
     }
 
-    public List<Temario> listarPorOposicion(
-            String oposicion) {
-
-        return temarioRepository
-                .findByOposicion(oposicion);
+    public List<Temario> listarArchivos() {
+        return temarioRepository.findAll();
     }
 
-    public void borrarTemario(Long id)
-            throws IOException {
-
-        Temario temario =
-                temarioRepository
-                        .findById(id)
-                        .orElseThrow();
-
-        Path path =
-                Paths.get(
-                        temario.getRuta());
-
-        Files.deleteIfExists(path);
-
-        temarioRepository
-                .deleteById(id);
+    public Temario obtenerArchivo(Long id) {
+        return temarioRepository.findById(id).orElseThrow();
     }
 
-    public Temario obtenerTemario(
-            Long id) {
+    public void borrarArchivo(Long id) throws IOException {
 
-        return temarioRepository
-                .findById(id)
-                .orElseThrow();
+        Temario archivo = temarioRepository.findById(id).orElseThrow();
+
+        Files.deleteIfExists(Paths.get(archivo.getRuta()));
+
+        temarioRepository.deleteById(id);
     }
 }

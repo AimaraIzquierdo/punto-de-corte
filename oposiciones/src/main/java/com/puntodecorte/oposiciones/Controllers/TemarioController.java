@@ -2,24 +2,15 @@ package com.puntodecorte.oposiciones.Controllers;
 
 import com.puntodecorte.oposiciones.Dominio.Temario;
 import com.puntodecorte.oposiciones.Service.TemarioService;
-
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -28,90 +19,54 @@ public class TemarioController {
 
     private final TemarioService temarioService;
 
-    public TemarioController(
-            TemarioService temarioService) {
-
+    public TemarioController(TemarioService temarioService) {
         this.temarioService = temarioService;
     }
 
-    @GetMapping("/temarios")
-    public String verTemarios(Model model) {
+    @GetMapping("/temario")
+    public String verTemario(Model model) {
 
-        model.addAttribute(
-                "guardiaCivil",
-                temarioService.listarPorOposicion(
-                        "Guardia Civil"
-                )
-        );
+        model.addAttribute("archivos",
+                temarioService.listarArchivos());
 
-        model.addAttribute(
-                "bomberos",
-                temarioService.listarPorOposicion(
-                        "Bomberos Madrid"
-                )
-        );
-
-        return "temarios";
+        return "temario";
     }
 
-    @PostMapping("/temarios/subir")
-    public String subirTemario(
-
-            @RequestParam("file")
-            MultipartFile file,
-
-            @RequestParam("oposicion")
-            String oposicion)
-
+    @PostMapping("/subir-temario")
+    public String subirArchivo(@RequestParam("file") MultipartFile file,
+                               @RequestParam("oposicion") String oposicion)
             throws IOException {
 
-        temarioService.subirTemario(
-                file,
-                oposicion
-        );
+        temarioService.subirArchivo(file, oposicion);
 
-        return "redirect:/temarios";
+        return "redirect:/temario";
     }
 
-    @GetMapping("/temarios/eliminar/{id}")
-    public String eliminarTemario(
-            @PathVariable Long id)
-
+    @GetMapping("/ver-temario/{id}")
+    @ResponseBody
+    public ResponseEntity<Resource> verArchivo(@PathVariable Long id)
             throws IOException {
 
-        temarioService.borrarTemario(id);
+        Temario archivo = temarioService.obtenerArchivo(id);
 
-        return "redirect:/temarios";
-    }
+        Path path = Paths.get(archivo.getRuta());
 
-    @GetMapping("/temarios/ver/{id}")
-    public ResponseEntity<Resource> verTemario(
-            @PathVariable Long id)
-            throws IOException {
-
-        Temario temario =
-                temarioService.obtenerTemario(id);
-
-        Path path =
-                Paths.get(temario.getRuta());
-
-        System.out.println(
-                "RUTA PDF: "
-                        + path.toAbsolutePath());
-
-        if (!Files.exists(path)) {
-
-            throw new RuntimeException(
-                    "NO EXISTE EL ARCHIVO: "
-                            + path.toAbsolutePath());
-        }
-
-        Resource resource =
-                new UrlResource(path.toUri());
+        Resource resource = new UrlResource(path.toUri());
 
         return ResponseEntity.ok()
-                .contentType(
-                        MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=\"" +
+                                archivo.getNombre() + "\"")
+                .contentType(MediaType.parseMediaType(archivo.getTipo()))
                 .body(resource);
+    }
+
+    @GetMapping("/eliminar-temario/{id}")
+    public String eliminarArchivo(@PathVariable Long id)
+            throws IOException {
+
+        temarioService.borrarArchivo(id);
+
+        return "redirect:/temario";
     }
 }

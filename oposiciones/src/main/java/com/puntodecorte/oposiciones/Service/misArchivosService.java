@@ -29,7 +29,13 @@ public class misArchivosService {
 
         String nombreUnico = UUID.randomUUID() + "_" + nombreOriginal;
 
-        Path rutaCompleta = Paths.get(uploadDir, nombreUnico);
+        Path rutaCarpeta = Paths.get(uploadDir);
+
+        if (!Files.exists(rutaCarpeta)) {
+            Files.createDirectories(rutaCarpeta);
+        }
+
+        Path rutaCompleta = rutaCarpeta.resolve(nombreUnico);
 
         Files.copy(file.getInputStream(), rutaCompleta, StandardCopyOption.REPLACE_EXISTING);
 

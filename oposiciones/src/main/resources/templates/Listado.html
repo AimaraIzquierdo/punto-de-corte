@@ -14,15 +14,16 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg" style="background-color: #d9dbde;" data-bs-theme="dark">
 
     <div class="container-fluid">
 
-        <a class="navbar-brand" th:href="@{/}" href="/">
-            <img th:src="@{/img/favicon_escudo.svg}" src="/img/favicon_escudo.svg"
+        <a class="navbar-brand" href="#">
+            <img src="img/favicon_escudo.svg"
                  alt="Logo"
                  class="d-inline-block"
                  style="width: 40px; height: auto;">
+
             Punto de corte
         </a>
 
@@ -38,16 +39,51 @@
 
         </button>
 
-        <div class="collapse navbar-collapse"
-             id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/}" href="/">Inicio</a>
+                    <a class="nav-link active"
+                       aria-current="page"
+                       th:href="@{/}">
+                        Inicio
+                    </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        misArchivos
+                    </a>
+                </li>
+
+
             </ul>
+
+            <div class="me-3">
+                Hola <span th:text="${usuario.nombre}"></span>
+            </div>
+
+            <form class="d-flex" role="search">
+
+
+                <input class="form-control me-2"
+                       type="search"
+                       placeholder="Buscar"
+                       aria-label="Search"/>
+
+                <button class="btn btn-outline-success" type="submit">
+                    Buscar
+                </button>
+
+            </form>
+            <form th:action="@{/logout}" method="post">
+
+                <button class="btn btn-outline-danger">
+                    Cerrar sesión
+                </button>
+
+            </form>
 
         </div>
 
