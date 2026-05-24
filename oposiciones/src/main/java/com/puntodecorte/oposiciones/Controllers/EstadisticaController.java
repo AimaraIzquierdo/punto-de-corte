@@ -29,19 +29,45 @@ public class EstadisticaController {
         return "estadisticas";
     }
 
+    @GetMapping("/ampliado/{tipo}")
+    public String verAmpliado(@PathVariable("tipo") String tipo, Model model) {
+
+        List<Estadistica> lista = service.listar();
+
+        // Filtrar por tipo
+        List<Estadistica> filtrados = lista.stream()
+                .filter(e -> e.getTipo().name().equals(tipo))
+                .toList();
+
+        model.addAttribute("estadisticas", filtrados);
+        model.addAttribute("tipo", tipo);
+        model.addAttribute("tipoNombre", tipo.equals("TEORIA") ? "Teoría" :
+                tipo.equals("PRACTICA") ? "Práctica" : "Otros");
+
+        return "estadisticaAmpliada";
+    }
+
     @PostMapping("/guardar")
     public String guardar(@RequestParam String titulo,
                           @RequestParam String materia,
                           @RequestParam String fecha,
                           @RequestParam Double nota,
-                          @RequestParam TipoEstadistica tipo) {
+                          @RequestParam String tipo) {
 
         Estadistica e = new Estadistica();
         e.setTitulo(titulo);
         e.setMateria(materia);
         e.setFecha(java.time.LocalDate.parse(fecha));
         e.setNota(nota);
-        e.setTipo(tipo);
+
+        // Convertir String a enum
+        TipoEstadistica tipoEnum;
+        try {
+            tipoEnum = TipoEstadistica.valueOf(tipo.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            tipoEnum = TipoEstadistica.OTROS;
+        }
+        e.setTipo(tipoEnum);
 
         service.guardar(e);
 

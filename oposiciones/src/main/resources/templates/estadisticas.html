@@ -106,6 +106,8 @@
 <div class="panel">
     <form method="post" action="/estadisticas/guardar">
 
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
         <input type="text" name="titulo" placeholder="Título" required><br><br>
 
         <input type="text" name="materia" placeholder="Materia" required><br><br>
@@ -133,18 +135,27 @@
         <h3>Teoría</h3>
         <canvas id="graficaTeoria" height="120"></canvas>
         <p id="mediaTeoria"></p>
+        <button class="btn btn-primary btn-sm" onclick="window.location.href='/estadisticas/ampliado/TEORIA'">
+            Ver ampliado
+        </button>
     </div>
 
     <div class="chart">
         <h3>Práctica</h3>
         <canvas id="graficaPractica" height="120"></canvas>
         <p id="mediaPractica"></p>
+        <button class="btn btn-primary btn-sm" onclick="window.location.href='/estadisticas/ampliado/PRACTICA'">
+            Ver ampliado
+        </button>
     </div>
 
     <div class="chart">
         <h3>Otros</h3>
         <canvas id="graficaOtros" height="120"></canvas>
         <p id="mediaOtros"></p>
+        <button class="btn btn-primary btn-sm" onclick="window.location.href='/estadisticas/ampliado/OTROS'">
+            Ver ampliado
+        </button>
     </div>
 
 </div>
@@ -226,6 +237,8 @@
             }
         });
 
+
+
         // MEDIA
         let notas = datosFiltrados.map(d => d.nota);
         let media = notas.length ? notas.reduce((a, b) => a + b) / notas.length : 0;
@@ -234,68 +247,7 @@
             document.getElementById(mediaId).innerText =
                 "Media: " + media.toFixed(2);
         }
-
-        // CLICK PARA AGRANDAR
-
-        document.getElementById(id).addEventListener("click", () => {
-
-            let modalElement = document.getElementById('graficaModal');
-
-            let modal = new bootstrap.Modal(modalElement);
-
-            document.getElementById("modalTitulo").innerText = id;
-
-            // reconstruir datasets desde cero
-            let datasetsGrande = Object.keys(porMateria).map((m, i) => ({
-                label: m,
-                data: porMateria[m].map(x => x.nota),
-                borderColor: colores(i),
-                fill: false
-            }));
-
-            modal.show();
-
-            modalElement.addEventListener('shown.bs.modal', function () {
-
-                // destruir anterior
-                if (window.graficaGrande) {
-                    window.graficaGrande.destroy();
-                }
-
-                // limpiar canvas
-                document.getElementById('graficaGrande').getContext('2d')
-                    .clearRect(
-                        0,
-                        0,
-                        document.getElementById('graficaGrande').width,
-                        document.getElementById('graficaGrande').height
-                    );
-
-                // crear nueva gráfica
-                window.graficaGrande = new Chart(
-                    document.getElementById('graficaGrande'),
-                    {
-                        type: 'line',
-
-                        data: {
-                            labels: labels,
-                            datasets: datasetsGrande
-                        },
-
-                        options: {
-                            responsive: true
-                        }
-                    }
-                );
-
-            }, {once: true});
-
-        });
     }
-
-
-
-
 
     /* ========= INICIALIZACIÓN ========= */
 

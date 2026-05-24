@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Estadística Ampliada</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .navbar {
+            margin-bottom: 30px;
+        }
+
+        .container-ampliado {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .panel-grafica {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .grafica-grande-container {
+            height: 600px;
+            margin-bottom: 30px;
+        }
+
+        .botones-control {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .panel-formulario {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        .btn-volver {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-volver:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+
+        .media-info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0c5460;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="/">
+            <img src="/img/favicon_escudo.svg"
+                 alt="Logo"
+                 class="d-inline-block"
+                 style="width: 40px; height: auto;">
+
+            Punto de corte
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">
+                        Inicio
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/estadisticas}">
+                        Estadísticas
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- CONTENEDOR PRINCIPAL -->
+<div class="container-ampliado">
+
+    <h1 th:text="'Estadísticas - ' + ${tipoNombre}"></h1>
+
+    <!-- BOTONES DE CONTROL -->
+    <div class="botones-control">
+        <a th:href="@{/estadisticas}" class="btn btn-volver">
+            ← Volver a Estadísticas
+        </a>
+    </div>
+
+    <!-- GRÁFICA AMPLIADA -->
+    <div class="panel-grafica">
+        <h3 th:text="${tipoNombre}"></h3>
+        <div class="grafica-grande-container">
+            <canvas id="graficaGrande"></canvas>
+        </div>
+        <div class="media-info" id="mediaInfo"></div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="panel-formulario">
+        <h3>Añadir nueva nota</h3>
+        <form method="post" th:action="@{/estadisticas/guardar}">
+
+            <div class="form-group">
+                <label for="titulo">Título</label>
+                <input type="text" id="titulo" name="titulo" placeholder="Ej: Examen parcial" required>
+            </div>
+
+            <div class="form-group">
+                <label for="materia">Materia</label>
+                <input type="text" id="materia" name="materia" placeholder="Ej: Derecho Penal" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" name="fecha" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nota">Nota</label>
+                <input type="number" id="nota" name="nota" placeholder="0.0" step="0.1" min="0" max="10" required>
+            </div>
+
+            <input type="hidden" name="tipo" th:value="${tipo}">
+
+            <button type="submit" class="btn btn-success">
+                Guardar nota
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+
+    let datos = /*[[${estadisticas}]]*/ [];
+
+    // Utilidades
+    function agruparPorMateria(lista) {
+        let map = {};
+        lista.forEach(d => {
+            if (!map[d.materia]) map[d.materia] = [];
+            map[d.materia].push(d);
+        });
+        return map;
+    }
+
+    function colores(i) {
+        const c = ['red','blue','green','orange','purple','brown','black'];
+        return c[i % c.length];
+    }
+
+    // Crear gráfica ampliada
+    function crearGraficaAmpliada() {
+
+        // Ordenar por fecha
+        datos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+        let porMateria = agruparPorMateria(datos);
+
+        let datasets = Object.keys(porMateria).map((m, i) => ({
+            label: m,
+            data: porMateria[m].map(x => x.nota),
+            borderColor: colores(i),
+            fill: false,
+            tension: 0.1
+        }));
+
+        let labels = datos.map(d => d.fecha);
+
+        // Crear gráfica
+        let ctx = document.getElementById('graficaGrande').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Evolución de notas'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+
+        // Calcular media
+        let notas = datos.map(d => d.nota);
+        let media = notas.length ? notas.reduce((a, b) => a + b) / notas.length : 0;
+
+        document.getElementById('mediaInfo').innerText =
+            "Media: " + media.toFixed(2) + "/10";
+    }
+
+    // Inicializar
+    if (datos.length > 0) {
+        crearGraficaAmpliada();
+    } else {
+        document.getElementById('mediaInfo').innerText = "Sin datos";
+    }
+
+</script>
+
+</body>
+</html>
