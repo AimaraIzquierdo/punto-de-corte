@@ -25,13 +25,23 @@ public class TemarioService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public TemarioService(TemarioRepository temarioRepository) {
-        this.temarioRepository = temarioRepository;
+    public TemarioService(
+            TemarioRepository temarioRepository) {
+
+        this.temarioRepository =
+                temarioRepository;
     }
 
     public void subirTemario(
             MultipartFile file,
-            String oposicion) throws IOException {
+            String oposicion)
+            throws IOException {
+
+        if (file.isEmpty()) {
+
+            throw new RuntimeException(
+                    "El archivo está vacío");
+        }
 
         String nombreOriginal =
                 file.getOriginalFilename();
@@ -41,8 +51,18 @@ public class TemarioService {
                         + "_"
                         + nombreOriginal;
 
+        Path carpetaUploads =
+                Paths.get(uploadDir);
+
+        if (!Files.exists(carpetaUploads)) {
+
+            Files.createDirectories(
+                    carpetaUploads);
+        }
+
         Path rutaCompleta =
-                Paths.get(uploadDir, nombreUnico);
+                carpetaUploads.resolve(
+                        nombreUnico);
 
         Files.copy(
                 file.getInputStream(),
@@ -50,21 +70,34 @@ public class TemarioService {
                 StandardCopyOption.REPLACE_EXISTING
         );
 
-        Temario temario = new Temario();
+        Temario temario =
+                new Temario();
 
-        temario.setNombre(nombreOriginal);
+        temario.setNombre(
+                nombreOriginal);
 
-        temario.setOposicion(oposicion);
+        temario.setOposicion(
+                oposicion);
 
-        temario.setRuta(rutaCompleta.toString());
+        temario.setRuta(
+                rutaCompleta.toAbsolutePath()
+                        .toString());
 
-        temario.setTipo(file.getContentType());
+        temario.setTipo(
+                file.getContentType());
 
-        temario.setTamano(file.getSize());
+        temario.setTamano(
+                file.getSize());
 
-        temario.setFechaSubida(LocalDateTime.now());
+        temario.setFechaSubida(
+                LocalDateTime.now());
 
-        temarioRepository.save(temario);
+        temarioRepository.save(
+                temario);
+
+        System.out.println(
+                "PDF GUARDADO EN: "
+                        + rutaCompleta.toAbsolutePath());
     }
 
     public List<Temario> listarPorOposicion(
@@ -82,14 +115,18 @@ public class TemarioService {
                         .findById(id)
                         .orElseThrow();
 
-        Files.deleteIfExists(
-                Paths.get(temario.getRuta())
-        );
+        Path path =
+                Paths.get(
+                        temario.getRuta());
 
-        temarioRepository.deleteById(id);
+        Files.deleteIfExists(path);
+
+        temarioRepository
+                .deleteById(id);
     }
 
-    public Temario obtenerTemario(Long id) {
+    public Temario obtenerTemario(
+            Long id) {
 
         return temarioRepository
                 .findById(id)
