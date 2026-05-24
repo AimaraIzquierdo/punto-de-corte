@@ -301,20 +301,14 @@ CREATE TABLE IF NOT EXISTS Blog (
 -- ======================
 
 CREATE TABLE IF NOT EXISTS Tienda (
-                                      id_produc INT AUTO_INCREMENT PRIMARY KEY,
-
+                                      id_produc   INT AUTO_INCREMENT PRIMARY KEY,
                                       nombre_produc VARCHAR(255),
-
     descrip_produc TEXT,
-
-    precio FLOAT,
-
-    url_produc VARCHAR(255),
-
-    id_admin INT,
-
-    FOREIGN KEY (id_admin)
-    REFERENCES Usuarios(id_usu)
+    precio      FLOAT,
+    url_produc  VARCHAR(255),
+    categoria   VARCHAR(50),
+    id_admin    INT,
+    FOREIGN KEY (id_admin) REFERENCES Usuarios(id_usu)
     );
 
 -- ======================
@@ -371,4 +365,13 @@ CREATE TABLE IF NOT EXISTS Modulos (
     imagen VARCHAR(255),
 
     texto_boton VARCHAR(100)
+    );
+
+CREATE TABLE IF NOT EXISTS Carrito (
+                                       id_carrito  INT AUTO_INCREMENT PRIMARY KEY,
+                                       id_usu      INT NOT NULL,
+                                       id_produc   INT NOT NULL,
+                                       cantidad    INT DEFAULT 1,
+                                       FOREIGN KEY (id_usu)    REFERENCES Usuarios(id_usu),
+    FOREIGN KEY (id_produc) REFERENCES Tienda(id_produc)
     );
