@@ -4,19 +4,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Login - Punto de Corte</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
+    <style>
+        body { background: linear-gradient(
+                135deg, #667eea 0%, #764ba2 100%
+        );
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+        .card {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: none;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
 
     <div class="container-fluid">
 
         <a class="navbar-brand" href="#">
-            <img src="img/favicon_escudo.svg"
+            <img src="img/logoAjustado.png"
                  alt="Logo"
                  class="d-inline-block"
                  style="width: 40px; height: auto;">
@@ -26,7 +39,7 @@
     </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container">
 
     <div class="row justify-content-center">
 
@@ -34,47 +47,48 @@
 
             <div class="card">
 
-                <div class="card-header">
-                    Iniciar sesión
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Iniciar sesión</h5>
                 </div>
 
                 <div class="card-body">
+                    <!-- MOSTRAR MENSAJE DE ERROR SI EXISTE -->
+                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error:</strong> <span th:text="${error}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
 
-                    <form method="post"
-                          th:action="@{/login}">
-
+                    <!-- MOSTRAR MENSAJE DE LOGOUT -->
+                    <div th:if="${param.logout}" class="alert alert-info alert-dismissible fade show" role="alert">
+                        Has cerrado sesión correctamente
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    <form method="post" th:action="@{/login}">
                         <div class="mb-3">
-
-                            <label>Email</label>
-
-                            <input type="text"
+                            <label for="username" class="form-label">Email</label>
+                            <input type="email"
+                                   id="username"
                                    name="username"
-                                   class="form-control">
-
+                                   class="form-control"
+                                   required>
                         </div>
 
                         <div class="mb-3">
-
-                            <label>Contraseña</label>
-
+                            <label for="password" class="form-label">Contraseña</label>
                             <input type="password"
+                                   id="password"
                                    name="password"
-                                   class="form-control">
-
+                                   class="form-control"
+                                   required>
                         </div>
 
-                        <button type="submit"
-                                class="btn btn-primary w-100">
-
-                            Entrar
-
-                        </button>
+                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
 
                         <hr>
 
-                        <a th:href="@{/registro}">
-                            Crear cuenta
-                        </a>
+                        <p class="text-center">¿No tienes cuenta?
+                            <a th:href="@{/registro}">Crear cuenta</a>
+                        </p>
 
                     </form>
 
@@ -87,6 +101,8 @@
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
 
 </body>
 </html>
