@@ -1,7 +1,17 @@
 package com.puntodecorte.oposiciones.Dominio;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Video {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String titulo;
+
+    @Column(length = 1000)
     private String url;
 
     public Video() {}
@@ -9,6 +19,10 @@ public class Video {
     public Video(String titulo, String url) {
         this.titulo = titulo;
         this.url = url;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitulo() {

@@ -1,51 +1,56 @@
 package com.puntodecorte.oposiciones.Controllers;
 
 import com.puntodecorte.oposiciones.Dominio.Video;
+import com.puntodecorte.oposiciones.Service.VideoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class VideosController {
 
-    private final List<Video> videos = new ArrayList<>();
+    private final VideoService videoService;
 
-    /* ================= LISTAR VÍDEOS ================= */
+    public VideosController(VideoService videoService) {
+        this.videoService = videoService;
+    }
+
+    /* ================= LISTAR ================= */
 
     @GetMapping("/videos")
     public String mostrarVideos(Model model) {
 
-        model.addAttribute("videos", videos);
-        model.addAttribute("nuevoVideo", new Video());
+        model.addAttribute("videos",
+                videoService.listarVideos());
+
+        model.addAttribute("nuevoVideo",
+                new Video());
 
         return "videos";
     }
 
-    /* ================= CREAR VÍDEO ================= */
+    /* ================= CREAR ================= */
 
     @PostMapping("/videos")
     public String guardarVideo(@ModelAttribute Video nuevoVideo) {
 
-        nuevoVideo.setUrl(toEmbedUrl(nuevoVideo.getUrl()));
-        videos.add(nuevoVideo);
+        nuevoVideo.setUrl(
+                toEmbedUrl(nuevoVideo.getUrl()));
+
+        videoService.guardarVideo(nuevoVideo);
 
         return "redirect:/videos";
     }
 
-    /* ================= ELIMINAR VÍDEO ================= */
+    /* ================= ELIMINAR ================= */
 
-    // 🔥 CAMBIO IMPORTANTE: mejor POST que GET (correcto para TFG)
     @PostMapping("/videos/eliminar/{id}")
-    public String eliminarVideo(@PathVariable int id) {
+    public String eliminarVideo(@PathVariable Long id) {
 
-        if (id >= 0 && id < videos.size()) {
-            videos.remove(id);
-        }
+        videoService.eliminarVideo(id);
 
         return "redirect:/videos";
     }
@@ -57,24 +62,38 @@ public class VideosController {
         if (url == null) return "";
 
         try {
+
             URI uri = new URI(url);
-            String host = uri.getHost() == null ? "" : uri.getHost().toLowerCase();
+
+            String host = uri.getHost() == null
+                    ? ""
+                    : uri.getHost().toLowerCase();
+
             String query = uri.getQuery();
 
-            // YouTube normal
-            if (host.contains("youtube.com") && query != null) {
+            // youtube normal
+            if (host.contains("youtube.com")
+                    && query != null) {
+
                 for (String part : query.split("&")) {
+
                     if (part.startsWith("v=")) {
-                        return "https://www.youtube.com/embed/" + part.substring(2);
+
+                        return "https://www.youtube.com/embed/"
+                                + part.substring(2);
                     }
                 }
             }
 
-            // YouTube corto
+            // youtube corto
             if (host.contains("youtu.be")) {
+
                 String path = uri.getPath();
+
                 if (path != null && path.length() > 1) {
-                    return "https://www.youtube.com/embed/" + path.substring(1);
+
+                    return "https://www.youtube.com/embed/"
+                            + path.substring(1);
                 }
             }
 

@@ -2,10 +2,13 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
     <meta charset="UTF-8">
+
     <title>Videos</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <style>
 
@@ -72,12 +75,13 @@
         }
 
         .video-card:hover{
-            transform:scale(1.02);
+            transform:scale(1.01);
         }
 
         iframe{
             width:100%;
             height:200px;
+            border:none;
         }
 
         .video-body{
@@ -87,7 +91,7 @@
         .video-title{
             font-size:15px;
             font-weight:600;
-            margin-bottom:10px;
+            margin-bottom:12px;
             color:#333;
         }
 
@@ -99,7 +103,7 @@
         }
 
         .btn-primary:hover{
-            background:black;
+            background:#145ca1;
         }
 
         .btn-outline-danger{
@@ -112,69 +116,68 @@
             color:white;
         }
 
+        .delete-form{
+            margin:0;
+        }
+
     </style>
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg">
 
     <div class="container-fluid">
 
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" th:href="@{/}">
+
             <img src="img/favicon_escudo.svg"
                  alt="Logo"
                  class="d-inline-block"
                  style="width: 40px; height: auto;">
 
             Punto de corte
+
         </a>
 
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
+                data-bs-target="#navbarSupportedContent">
 
             <span class="navbar-toggler-icon"></span>
 
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse"
+             id="navbarSupportedContent">
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item">
+
                     <a class="nav-link active"
-                       aria-current="page"
                        th:href="@{/}">
+
                         Inicio
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+
+                    <a class="nav-link"
+                       th:href="@{/videos}">
+
                         Videos
+
                     </a>
+
                 </li>
 
             </ul>
-
-            <form class="d-flex" role="search">
-
-                <input class="form-control me-2"
-                       type="search"
-                       placeholder="Buscar"
-                       aria-label="Search"/>
-
-                <button class="btn btn-outline-success" type="submit">
-                    Buscar
-                </button>
-
-            </form>
 
         </div>
 
@@ -184,50 +187,84 @@
 
 <div class="container">
 
-    <h2 class="page-title">Videos</h2>
+    <h2 class="page-title">
+        Videos
+    </h2>
 
-    <!-- ================= FORM ================= -->
+    <!-- ================= FORMULARIO ================= -->
 
     <div class="form-card mb-4">
 
-        <form th:action="@{/videos}" method="post" th:object="${nuevoVideo}">
+        <form th:action="@{/videos}"
+              method="post"
+              th:object="${nuevoVideo}">
 
             <div class="mb-3">
-                <label>Título</label>
-                <input type="text" class="form-control" th:field="*{titulo}">
+
+                <label>
+                    Título
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       th:field="*{titulo}"
+                       required>
+
             </div>
 
             <div class="mb-3">
-                <label>URL YouTube</label>
-                <input type="text" class="form-control" th:field="*{url}">
+
+                <label>
+                    URL YouTube
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       th:field="*{url}"
+                       required>
+
             </div>
 
             <button class="btn btn-primary">
+
                 Añadir vídeo
+
             </button>
 
         </form>
 
     </div>
 
-    <!-- ================= VIDEOS ================= -->
+    <!-- ================= LISTA VIDEOS ================= -->
 
     <div class="row g-4">
 
-        <div class="col-md-4" th:each="video, stat : ${videos}">
+        <div class="col-md-4"
+             th:each="video : ${videos}">
 
             <div class="video-card">
 
-                <iframe th:src="${video.url}" allowfullscreen></iframe>
+                <iframe th:src="${video.url}"
+                        allowfullscreen>
+                </iframe>
 
                 <div class="video-body">
 
-                    <div class="video-title" th:text="${video.titulo}"></div>
+                    <div class="video-title"
+                         th:text="${video.titulo}">
+                    </div>
 
-                    <a class="btn btn-outline-danger btn-sm"
-                       th:href="@{'/videos/eliminar/' + ${stat.index}}">
-                        Eliminar
-                    </a>
+                    <form class="delete-form"
+                          th:action="@{/videos/eliminar/{id}(id=${video.id})}"
+                          method="post">
+
+                        <button class="btn btn-outline-danger btn-sm">
+
+                            Eliminar
+
+                        </button>
+
+                    </form>
 
                 </div>
 
