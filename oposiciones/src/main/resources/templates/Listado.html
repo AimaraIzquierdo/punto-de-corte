@@ -5,16 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
-
     <title>Punto de corte</title>
 
-    <link th:href="@{/css/cssinicial.css}" href="/css/cssinicial.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/cssinicial.css}"
+          href="/css/cssinicial.css"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #d9dbde;" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg"
+     style="background-color: #d9dbde;"
+     data-bs-theme="dark">
 
     <div class="container-fluid">
 
@@ -22,42 +27,28 @@
             <img src="img/logoAjustado.png"
                  alt="Logo"
                  class="d-inline-block"
-                 style="width: 40px; height: auto;"
-            >
-
+                 style="width: 40px; height: auto;">
             Punto de corte
         </a>
 
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-
+                data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
-
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse"
+             id="navbarSupportedContent">
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item">
                     <a class="nav-link active"
-                       aria-current="page"
                        th:href="@{/}">
                         Inicio
                     </a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        misArchivos
-                    </a>
-                </li>
-
 
             </ul>
 
@@ -65,25 +56,21 @@
                 Hola <span th:text="${usuario.nombre}"></span>
             </div>
 
-            <form class="d-flex" role="search">
-
-
+            <form class="d-flex">
                 <input class="form-control me-2"
                        type="search"
-                       placeholder="Buscar"
-                       aria-label="Search"/>
-
-                <button class="btn btn-outline-success" type="submit">
+                       placeholder="Buscar"/>
+                <button class="btn btn-outline-success"
+                        type="submit">
                     Buscar
                 </button>
-
             </form>
-            <form th:action="@{/logout}" method="post">
 
+            <form th:action="@{/logout}"
+                  method="post">
                 <button class="btn btn-outline-danger">
                     Cerrar sesión
                 </button>
-
             </form>
 
         </div>
@@ -96,24 +83,57 @@
 
     <div class="row">
 
+        <!-- Tarjetas dinámicas -->
         <div th:each="modulo : ${modulos}"
              class="col-md-3 mb-4">
 
             <div class="card">
 
-                <img th:src="@{${modulo.imagen}}" class="card-img-top" alt="Imagen módulo">
+                <img th:src="@{${modulo.imagen}}"
+                     class="card-img-top">
 
                 <div class="card-body">
 
-                    <h5 th:text="${modulo.nombre}" class="card-title"></h5>
+                    <h5 th:text="${modulo.nombre}"
+                        class="card-title"></h5>
 
-                    <p th:text="${modulo.descripcion}" class="card-text"></p>
+                    <p th:text="${modulo.descripcion}"
+                       class="card-text"></p>
 
                     <div class="card-footer text-muted">
-                        <!-- Usar la ruta del módulo para navegar -->
                         <a class="btn btn-primary"
                            th:href="@{${modulo.ruta}}"
                            th:text="${modulo.textoBoton}"></a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Tarjeta fija: Tienda Opositores -->
+        <div class="col-md-3 mb-4">
+
+            <div class="card">
+
+                <img th:src="@{/img/tienda_opositores.png}"
+                     class="card-img-top"
+                     alt="Tienda Opositores">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">Tienda Opositores</h5>
+
+                    <p class="card-text">
+                        Compra todo lo que necesitas para tus oposiciones.
+                    </p>
+
+                    <div class="card-footer text-muted">
+                        <a class="btn btn-primary"
+                           th:href="@{/tienda/opositor}">
+                            Ir a Tienda Opositores
+                        </a>
                     </div>
 
                 </div>
