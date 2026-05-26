@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .failureHandler(failureHandler) // si no tienes failureHandler, reemplaza por .failureUrl("/login?error")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/listado", true)
                 .permitAll()
         );
 
