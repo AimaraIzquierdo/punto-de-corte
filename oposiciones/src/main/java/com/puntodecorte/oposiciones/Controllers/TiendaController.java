@@ -42,7 +42,7 @@ public class TiendaController {
        TIENDA OPOSITOR
        ========================= */
 
-    @GetMapping("/tienda/opositor")
+    @GetMapping("/tiendaOpositor")
     public String tiendaOpositor(@RequestParam(required = false) String categoria,
                                  Model model) {
 

@@ -84,6 +84,14 @@ public class ModuloService {
         modulo8.setRuta("/tienda");
         listaModulos.add(modulo8);
 
+        Modulo modulo9 = new Modulo();
+        modulo9.setNombre("Tienda Opositores");
+        modulo9.setDescripcion("Compra todo lo que necesitas");
+        modulo9.setImagen("/img/tienda.png");
+        modulo9.setTextoBoton("Ir a Tienda Opositores");
+        modulo9.setRuta("/tiendaOpositor");
+        listaModulos.add(modulo9);
+
         return listaModulos;
     }
 }

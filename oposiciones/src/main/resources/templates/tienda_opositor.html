@@ -103,9 +103,20 @@
                 <li class="nav-item">
 
                     <a class="nav-link active"
-                       th:href="@{/tienda/opositor}">
+                       th:href="@{/tiendaOpositor}">
 
                         Productos de interés
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       th:href="@{/carrito}">
+
+                        🛒 Carrito
 
                     </a>
 
@@ -131,7 +142,7 @@
 
     <div class="d-flex gap-2 flex-wrap mb-4">
 
-        <a th:href="@{/tienda/opositor}"
+        <a th:href="@{/tiendaOpositor}"
            class="btn btn-sm"
            th:classappend="${categoriaActiva == null}
            ? ' btn-primary'
@@ -142,7 +153,7 @@
         </a>
 
         <a th:each="cat : ${ {'suplementos','ropa','accesorios','material'} }"
-           th:href="@{/tienda/opositor(categoria=${cat})}"
+           th:href="@{/tiendaOpositor(categoria=${cat})}"
            th:text="${cat}"
            class="btn btn-sm"
            th:classappend="${categoriaActiva == cat}
@@ -239,11 +250,13 @@
             <div class="modal-header border-0">
 
                 <h5 class="modal-title fw-bold"
-                    id="modal-nombre"></h5>
+                    id="modal-nombre">
+                </h5>
 
                 <button type="button"
                         class="btn-close"
-                        data-bs-dismiss="modal"></button>
+                        data-bs-dismiss="modal">
+                </button>
 
             </div>
 
@@ -259,16 +272,37 @@
                     <span class="badge bg-secondary"
                           id="modal-categoria"
                           style="text-transform: capitalize; font-size: 0.85rem;">
-
                     </span>
 
                     <strong class="text-primary fs-5"
-                            id="modal-precio"></strong>
+                            id="modal-precio">
+                    </strong>
 
                 </div>
 
                 <p class="text-muted"
-                   id="modal-descrip"></p>
+                   id="modal-descrip">
+                </p>
+
+            </div>
+
+            <div class="modal-footer border-0">
+
+                <form id="form-carrito"
+                      method="post">
+
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}" />
+
+                    <button type="submit"
+                            class="btn btn-primary px-4">
+
+                        🛒 Añadir al carrito
+
+                    </button>
+
+                </form>
 
             </div>
 
@@ -299,6 +333,9 @@
 
         document.getElementById("modal-img").src =
             fila.dataset.img || "/img/placeholder.png";
+
+        document.getElementById("form-carrito").action =
+            "/carrito/anadir/" + fila.dataset.id;
 
         new bootstrap.Modal(
             document.getElementById("modalDetalle")
