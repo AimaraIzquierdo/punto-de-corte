@@ -356,15 +356,16 @@ CREATE TABLE IF NOT EXISTS Avisos (
 -- ======================
 
 CREATE TABLE IF NOT EXISTS Modulos (
-                                       id_modulo INT AUTO_INCREMENT PRIMARY KEY,
+  id_modulo INT AUTO_INCREMENT PRIMARY KEY,
 
-                                       nombre VARCHAR(100),
+    nombre VARCHAR(100),
 
     descripcion TEXT,
 
     imagen VARCHAR(255),
 
-    texto_boton VARCHAR(100)
+    texto_boton VARCHAR(100),
+
     );
 
 CREATE TABLE IF NOT EXISTS Carrito (
