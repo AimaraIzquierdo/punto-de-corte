@@ -19,51 +19,123 @@ public class TiendaController {
         this.service = service;
     }
 
+    /* =========================
+       TIENDA ADMIN
+       ========================= */
+
     @GetMapping("/tienda")
-    public String adminTienda(@RequestParam(required = false) String categoria, Model model) {
-        List<Producto> productos = (categoria != null && !categoria.isBlank())
-                ? service.listarPorCategoria(categoria)
-                : service.listarTodos();
+    public String adminTienda(@RequestParam(required = false) String categoria,
+                              Model model) {
+
+        List<Producto> productos =
+                (categoria != null && !categoria.isBlank())
+                        ? service.listarPorCategoria(categoria)
+                        : service.listarTodos();
 
         model.addAttribute("productos", productos);
         model.addAttribute("categoriaActiva", categoria);
+
         return "tienda_admin";
     }
 
+    /* =========================
+       TIENDA OPOSITOR
+       ========================= */
+
+    @GetMapping("/tiendaOpositor")
+    public String tiendaOpositor(@RequestParam(required = false) String categoria,
+                                 Model model) {
+
+        List<Producto> productos =
+                (categoria != null && !categoria.isBlank())
+                        ? service.listarPorCategoria(categoria)
+                        : service.listarTodos();
+
+        model.addAttribute("productos", productos);
+        model.addAttribute("categoriaActiva", categoria);
+
+        return "tienda_opositor";
+    }
+
+    /* =========================
+       NUEVO PRODUCTO
+       ========================= */
+
     @GetMapping("/tienda/admin/nuevo")
     public String formularioNuevo(Model model) {
+
         model.addAttribute("producto", new Producto());
-        model.addAttribute("categorias", List.of("suplementos", "ropa", "accesorios", "material"));
+
+        model.addAttribute(
+                "categorias",
+                List.of(
+                        "suplementos",
+                        "ropa",
+                        "accesorios",
+                        "material"
+                )
+        );
+
         return "tienda_form";
     }
 
     @PostMapping("/tienda/admin/nuevo")
     public String crearProducto(@ModelAttribute Producto producto,
-                                @RequestParam("imagen") MultipartFile imagen) throws IOException {
+                                @RequestParam("imagen") MultipartFile imagen)
+            throws IOException {
+
         service.guardar(producto, imagen);
+
         return "redirect:/tienda";
     }
 
+    /* =========================
+       EDITAR PRODUCTO
+       ========================= */
+
     @GetMapping("/tienda/admin/editar/{id}")
-    public String formularioEditar(@PathVariable Long id, Model model) {
+    public String formularioEditar(@PathVariable Long id,
+                                   Model model) {
+
         Producto producto = service.buscarPorId(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() ->
+                        new RuntimeException("Producto no encontrado"));
+
         model.addAttribute("producto", producto);
-        model.addAttribute("categorias", List.of("suplementos", "ropa", "accesorios", "material"));
+
+        model.addAttribute(
+                "categorias",
+                List.of(
+                        "suplementos",
+                        "ropa",
+                        "accesorios",
+                        "material"
+                )
+        );
+
         return "tienda_form";
     }
 
     @PostMapping("/tienda/admin/editar/{id}")
     public String editarProducto(@PathVariable Long id,
                                  @ModelAttribute Producto producto,
-                                 @RequestParam("imagen") MultipartFile imagen) throws IOException {
+                                 @RequestParam("imagen") MultipartFile imagen)
+            throws IOException {
+
         service.actualizar(id, producto, imagen);
+
         return "redirect:/tienda";
     }
 
+    /* =========================
+       ELIMINAR PRODUCTO
+       ========================= */
+
     @PostMapping("/tienda/admin/eliminar/{id}")
     public String eliminarProducto(@PathVariable Long id) {
+
         service.eliminar(id);
+
         return "redirect:/tienda";
     }
 }
