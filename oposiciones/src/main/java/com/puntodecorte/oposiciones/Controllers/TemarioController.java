@@ -32,7 +32,7 @@ public class TemarioController {
         return "temario";
     }
 
-    @PostMapping("/subir-temario")
+    @PostMapping("/temario/subir")
     public String subirArchivo(@RequestParam("file") MultipartFile file,
                                @RequestParam("oposicion") String oposicion)
             throws IOException {
@@ -42,7 +42,7 @@ public class TemarioController {
         return "redirect:/temario";
     }
 
-    @GetMapping("/ver-temario/{id}")
+    @GetMapping("/temario/ver/{id}")
     @ResponseBody
     public ResponseEntity<Resource> verArchivo(@PathVariable Long id)
             throws IOException {
@@ -61,7 +61,7 @@ public class TemarioController {
                 .body(resource);
     }
 
-    @GetMapping("/eliminar-temario/{id}")
+    @GetMapping("/temario/eliminar/{id}")
     public String eliminarArchivo(@PathVariable Long id)
             throws IOException {
 

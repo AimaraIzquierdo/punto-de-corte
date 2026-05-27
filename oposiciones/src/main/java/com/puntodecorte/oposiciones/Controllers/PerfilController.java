@@ -45,7 +45,7 @@ public class PerfilController {
     /**
      * Actualiza datos básicos del usuario
      */
-    @PostMapping("/actualizar")
+    @PostMapping("/perfil/actualizar")
     public String actualizarDatos(
             Authentication authentication,
             @RequestParam String nombre,
@@ -82,7 +82,7 @@ public class PerfilController {
     /**
      * Cambia la contraseña del usuario
      */
-    @PostMapping("/cambiar-contrasena")
+    @PostMapping("/perfil/cambiar-contrasena")
     public String cambiarContrasena(
             Authentication authentication,
             @RequestParam String passwordActual,
@@ -119,7 +119,7 @@ public class PerfilController {
     /**
      * Suscribe al usuario a premium
      */
-    @PostMapping("/suscribirse")
+    @PostMapping("/perfil/suscribirse")
     public String suscribirse(
             Authentication authentication,
             Model model) {
