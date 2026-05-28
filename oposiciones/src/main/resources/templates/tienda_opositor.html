@@ -93,9 +93,7 @@
 
                     <a class="nav-link"
                        th:href="@{/home}">
-
                         Inicio
-
                     </a>
 
                 </li>
@@ -103,10 +101,8 @@
                 <li class="nav-item">
 
                     <a class="nav-link active"
-                       th:href="@{/tiendaOpositor}">
-
+                       th:href="@{/tienda/opositor}">
                         Productos de interés
-
                     </a>
 
                 </li>
@@ -115,9 +111,7 @@
 
                     <a class="nav-link"
                        th:href="@{/carrito}">
-
                         🛒 Carrito
-
                     </a>
 
                 </li>
@@ -142,7 +136,7 @@
 
     <div class="d-flex gap-2 flex-wrap mb-4">
 
-        <a th:href="@{/tiendaOpositor}"
+        <a th:href="@{/tienda/opositor}"
            class="btn btn-sm"
            th:classappend="${categoriaActiva == null}
            ? ' btn-primary'
@@ -153,7 +147,7 @@
         </a>
 
         <a th:each="cat : ${ {'suplementos','ropa','accesorios','material'} }"
-           th:href="@{/tiendaOpositor(categoria=${cat})}"
+           th:href="@{/tienda/opositor(categoria=${cat})}"
            th:text="${cat}"
            class="btn btn-sm"
            th:classappend="${categoriaActiva == cat}

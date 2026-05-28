@@ -5,6 +5,7 @@ import com.puntodecorte.oposiciones.Service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class CarritoController {
@@ -61,6 +62,25 @@ public class CarritoController {
     public String eliminar(@PathVariable Long idCarrito) {
 
         carritoService.eliminar(idCarrito);
+
+        return "redirect:/carrito";
+    }
+
+    // NUEVO
+
+    @PostMapping("/carrito/enviar")
+    public String enviarPedido(RedirectAttributes redirectAttributes) {
+
+        Long idUsu = usuarioService
+                .obtenerUsuarioActual()
+                .getId();
+
+        carritoService.vaciarCarrito(idUsu);
+
+        redirectAttributes.addFlashAttribute(
+                "mensaje",
+                "Pedido enviado correctamente a la academia"
+        );
 
         return "redirect:/carrito";
     }
