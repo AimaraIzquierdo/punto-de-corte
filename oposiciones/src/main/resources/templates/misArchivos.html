@@ -84,7 +84,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand" href="#">
-            <img src="img/logoAjustado.png"
+            <img th:src="@{/img/logoAjustado.png}"
                  alt="Logo"
                  class="d-inline-block"
                  style="width: 40px; height: auto;">
@@ -146,7 +146,7 @@
 
 <h1>Tus archivos</h1>
 
-<form class="subida" method="post" action="/archivos/subir" enctype="multipart/form-data">
+<form class="subida" method="post" th:action="@{/archivos/subir}" enctype="multipart/form-data">
 
     <input type="file" name="file" required>
 
