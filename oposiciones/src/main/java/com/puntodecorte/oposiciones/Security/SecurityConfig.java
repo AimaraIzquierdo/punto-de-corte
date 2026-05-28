@@ -63,7 +63,8 @@ public class SecurityConfig {
                         "/videos/**",
                         "/archivos/**",
                         "/sushito/**",
-                        "/calendario/**"
+                        "/calendario/**",
+                        "/carrito/**"
                 ).hasAnyRole("OPOFREE", "OPOPREMIUM", "ACADEMIA", "OPOACADEMIA", "ADMIN")
 
                 // Permisos opopremium

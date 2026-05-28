@@ -20,12 +20,21 @@ public class CarritoController {
         this.usuarioService = usuarioService;
     }
 
+    /* =========================
+       VER CARRITO
+       ========================= */
+
     @GetMapping("/carrito")
     public String verCarrito(Model model) {
 
         Long idUsu = usuarioService
                 .obtenerUsuarioActual()
                 .getId();
+
+        model.addAttribute(
+                "usuario",
+                usuarioService.obtenerUsuarioActual()
+        );
 
         model.addAttribute(
                 "items",
@@ -40,10 +49,16 @@ public class CarritoController {
         return "carrito";
     }
 
+    /* =========================
+       AÑADIR PRODUCTO
+       ========================= */
+
     @PostMapping("/carrito/anadir/{idProduc}")
     public String añadir(@PathVariable Long idProduc,
-                         @RequestHeader(value = "referer",
-                                 required = false) String referer) {
+                         @RequestHeader(
+                                 value = "referer",
+                                 required = false
+                         ) String referer) {
 
         Long idUsu = usuarioService
                 .obtenerUsuarioActual()
@@ -52,13 +67,18 @@ public class CarritoController {
         carritoService.añadir(idUsu, idProduc);
 
         if (referer != null) {
+
             return "redirect:" + referer;
         }
 
-        return "redirect:/tienda";
+        return "redirect:/tiendaOpositor";
     }
 
-    @PostMapping("/eliminar/{idCarrito}")
+    /* =========================
+       ELIMINAR PRODUCTO
+       ========================= */
+
+    @PostMapping("/carrito/eliminar/{idCarrito}")
     public String eliminar(@PathVariable Long idCarrito) {
 
         carritoService.eliminar(idCarrito);
@@ -66,10 +86,14 @@ public class CarritoController {
         return "redirect:/carrito";
     }
 
-    // NUEVO
+    /* =========================
+       ENVIAR PEDIDO
+       ========================= */
 
     @PostMapping("/carrito/enviar")
-    public String enviarPedido(RedirectAttributes redirectAttributes) {
+    public String enviarPedido(
+            RedirectAttributes redirectAttributes
+    ) {
 
         Long idUsu = usuarioService
                 .obtenerUsuarioActual()
