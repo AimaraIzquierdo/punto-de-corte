@@ -22,7 +22,8 @@ public class CalendarioController {
         return "calendario";
     }
 
-    // 👉 eventos
+    /* ================= EVENTOS ================= */
+
     @ResponseBody
     @GetMapping("/calendario/eventos")
     public List<CalendarioDTO> eventos() {
@@ -38,21 +39,33 @@ public class CalendarioController {
         }).toList();
     }
 
-    // 👉 crear evento
+    /* ================= GUARDAR ================= */
+
     @ResponseBody
     @PostMapping("/calendario")
-    public Calendario crear(@RequestBody CalendarioDTO dto) {
+    public CalendarioDTO crear(@RequestBody CalendarioDTO dto) {
 
         Calendario c = new Calendario();
-        c.setTitulo(dto.getTitle());
-        c.setFechaInicio(dto.getStart());
-        c.setFechaFin(dto.getEnd());
-        c.setDescripcion(dto.getDescription());
 
-        return service.guardar(c);
+        c.setTitulo(dto.getTitle());
+        c.setDescripcion(dto.getDescription());
+        c.setFechaInicio(dto.getStart());
+        c.setFechaFin(dto.getEnd() != null ? dto.getEnd() : dto.getStart());
+
+        Calendario guardado = service.guardar(c);
+
+        CalendarioDTO res = new CalendarioDTO();
+        res.setId(guardado.getId());
+        res.setTitle(guardado.getTitulo());
+        res.setStart(guardado.getFechaInicio());
+        res.setEnd(guardado.getFechaFin());
+        res.setDescription(guardado.getDescripcion());
+
+        return res;
     }
 
-    // 👉 borrar
+    /* ================= BORRAR ================= */
+
     @ResponseBody
     @DeleteMapping("/calendario/{id}")
     public void borrar(@PathVariable Long id) {
