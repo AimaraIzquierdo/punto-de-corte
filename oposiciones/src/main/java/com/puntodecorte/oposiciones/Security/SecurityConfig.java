@@ -42,7 +42,10 @@ public class SecurityConfig {
         http.authenticationProvider(authenticationProvider());
 
         // Si usas H2 console en desarrollo, ignorar CSRF para esa ruta y permitir frames
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
+        http.csrf(csrf -> csrf.ignoringRequestMatchers(
+                "/h2-console/**",
+                "/calendario/**"
+        ));
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
 
