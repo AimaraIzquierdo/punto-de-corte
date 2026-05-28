@@ -92,6 +92,22 @@ public class ModuloService {
         modulo9.setRuta("/tiendaOpositor");
         listaModulos.add(modulo9);
 
+        Modulo modulo10 = new Modulo();
+        modulo10.setNombre("Exámenes personalizados");
+        modulo10.setDescripcion("Crea exámenes por categorías y comprueba tus resultados");
+        modulo10.setImagen("/img/examen_personalizado.png");
+        modulo10.setTextoBoton("Ir a exámenes personalizados");
+        modulo10.setRuta("/simuladorExamen");
+        listaModulos.add(modulo10);
+
+        Modulo modulo11 = new Modulo();
+        modulo11.setNombre("Exámenes oficiales");
+        modulo11.setDescripcion("Haz exámenes oficiales y descubre las respuestas correctas y tu puntuación");
+        modulo11.setImagen("/img/examenes.png");
+        modulo11.setTextoBoton("Ir a exámenes oficiales");
+        modulo11.setRuta("/examenesOficiales");
+        listaModulos.add(modulo11);
+
         return listaModulos;
     }
 }
