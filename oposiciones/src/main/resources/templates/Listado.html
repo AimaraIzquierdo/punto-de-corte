@@ -45,7 +45,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link active"
-                       th:href="@{/}">
+                       th:href="@{/home}">
                         Inicio
                     </a>
                 </li>
@@ -65,6 +65,11 @@
                     Buscar
                 </button>
             </form>
+
+            <a th:href="@{/perfil}"
+               class="btn btn-outline-primary ms-2 me-3"
+                th:text="'Perfil de ' + ${usuario.nombre}">
+            </a>
 
             <form th:action="@{/logout}"
                   method="post">

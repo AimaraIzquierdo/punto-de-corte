@@ -1,33 +1,22 @@
 package com.puntodecorte.oposiciones.Controllers;
 
-import com.puntodecorte.oposiciones.Dominio.Rol;
-import com.puntodecorte.oposiciones.Dominio.Usuario;
-import com.puntodecorte.oposiciones.Repository.UsuarioRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.puntodecorte.oposiciones.Service.RegistroService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
 @Controller
 public class RegistroController {
 
-    private final UsuarioRepository usuarioRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final RegistroService registroService;
 
-    public RegistroController(
-            UsuarioRepository usuarioRepository,
-            PasswordEncoder passwordEncoder) {
-
-        this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
+    public RegistroController(RegistroService registroService) {
+        this.registroService = registroService;
     }
 
     @GetMapping("/registro")
     public String mostrarFormulario(Model model) {
-        model.addAttribute("usuario", new Usuario());
+        // Se usan atributos 'error' y 'success' en la vista
         return "registro";
     }
 
@@ -40,39 +29,15 @@ public class RegistroController {
             @RequestParam String passwordConfirm,
             Model model) {
 
-        // Validación 1: campos vacíos
-        if (nombre.isEmpty() || apellidos.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) {
-            model.addAttribute("error", "Todos los campos son requeridos");
+        var resultado = registroService.registrarUsuario(nombre, apellidos, email, password, passwordConfirm);
+
+        if (resultado.isPresent()) {
+            model.addAttribute("error", resultado.get());
             return "registro";
         }
 
-        // Validación 2: contraseñas coinciden
-        if (!password.equals(passwordConfirm)) {
-            model.addAttribute("error", "Las contraseñas no coinciden");
-            return "registro";
-        }
-
-        // Validación 3: usuario ya existe
-        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(email);
-        if (usuarioExistente.isPresent()) {
-            model.addAttribute("error", "Usuario ya registrado");
-            return "registro";
-        }
-
-        // Crear nuevo usuario
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setApellidos(apellidos);
-        nuevoUsuario.setEmail(email);
-        nuevoUsuario.setPassword(passwordEncoder.encode(password));
-        nuevoUsuario.setRol(Rol.OPOFREE);
-        nuevoUsuario.setFechaRegistro(LocalDate.now());
-        nuevoUsuario.setEspacioAlmacenar(5000); // 5GB por defecto
-
-        usuarioRepository.save(nuevoUsuario);
-
-        // Mostrar mensaje de éxito (opcional: lo puedes sacar si quieres ir directo a login)
-        model.addAttribute("success", "¡Cuenta creada exitosamente! Inicia sesión");
-        return "registro";
+        // Registro correcto
+        model.addAttribute("success", "Cuenta creada correctamente. Ahora puedes iniciar sesión.");
+        return "registro"; // mostramos la misma vista con mensaje de éxito; si prefieres redirigir a /login: return "redirect:/login";
     }
 }

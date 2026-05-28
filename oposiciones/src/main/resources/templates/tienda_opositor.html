@@ -59,64 +59,65 @@
 <body>
 
 <nav class="navbar navbar-expand-lg"
-     style="background-color: #d9dbde;">
+     style="background-color: #d9dbde;"
+     data-bs-theme="dark">
 
     <div class="container-fluid">
 
-        <a class="navbar-brand"
-           th:href="@{/home}">
-
-            <img src="/img/favicon_escudo.svg"
+        <a class="navbar-brand" href="#">
+            <img src="img/logoAjustado.png"
                  alt="Logo"
                  class="d-inline-block"
                  style="width: 40px; height: auto;">
-
             Punto de corte
-
         </a>
 
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#nav">
-
+                data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
-
         </button>
 
         <div class="collapse navbar-collapse"
-             id="nav">
+             id="navbarSupportedContent">
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item">
-
-                    <a class="nav-link"
+                    <a class="nav-link active"
                        th:href="@{/home}">
                         Inicio
                     </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link active"
-                       th:href="@{/tienda/opositor}">
-                        Productos de interés
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link"
-                       th:href="@{/carrito}">
-                        🛒 Carrito
-                    </a>
-
                 </li>
 
             </ul>
+
+            <div class="me-3">
+                Hola <span th:text="${usuario.nombre}"></span>
+            </div>
+
+            <form class="d-flex">
+                <input class="form-control me-2"
+                       type="search"
+                       placeholder="Buscar"/>
+                <button class="btn btn-outline-success"
+                        type="submit">
+                    Buscar
+                </button>
+            </form>
+
+            <a th:href="@{/perfil}"
+               class="btn btn-outline-primary ms-2 me-3"
+               th:text="'Perfil de ' + ${usuario.nombre}">
+            </a>
+
+            <form th:action="@{/logout}"
+                  method="post">
+                <button class="btn btn-outline-danger">
+                    Cerrar sesión
+                </button>
+            </form>
 
         </div>
 
@@ -136,7 +137,7 @@
 
     <div class="d-flex gap-2 flex-wrap mb-4">
 
-        <a th:href="@{/tienda/opositor}"
+        <a th:href="@{/tiendaOpositor}"
            class="btn btn-sm"
            th:classappend="${categoriaActiva == null}
            ? ' btn-primary'
@@ -147,7 +148,7 @@
         </a>
 
         <a th:each="cat : ${ {'suplementos','ropa','accesorios','material'} }"
-           th:href="@{/tienda/opositor(categoria=${cat})}"
+           th:href="@{/tiendaOpositor(categoria=${cat})}"
            th:text="${cat}"
            class="btn btn-sm"
            th:classappend="${categoriaActiva == cat}
