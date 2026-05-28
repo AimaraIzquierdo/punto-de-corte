@@ -77,7 +77,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand" href="#">
-            <img src="img/logoAjustado.png"
+            <img th:src="@{/img/logoAjustado.png}"
                  alt="Logo"
                  class="d-inline-block"
                  style="width: 40px; height: auto;">
@@ -137,6 +137,100 @@
 
 </nav>
 
+<div class="container py-5 text-center">
+
+    <h1 class="fw-bold mb-3">
+        Sushito IA 🍣🤖
+    </h1>
+
+    <p class="lead text-muted mb-5">
+        Nuestro asistente inteligente está en desarrollo.
+        Muy pronto podrá ayudarte con:
+    </p>
+
+    <div class="row justify-content-center mb-5">
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100 p-4">
+
+                <div style="font-size: 50px;">📚</div>
+
+                <h5 class="mt-3 fw-bold">
+                    Resúmenes
+                </h5>
+
+                <p class="text-muted">
+                    Resume automáticamente tu temario.
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100 p-4">
+
+                <div style="font-size: 50px;">🧠</div>
+
+                <h5 class="mt-3 fw-bold">
+                    Esquemas
+                </h5>
+
+                <p class="text-muted">
+                    Genera esquemas visuales y organizados.
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100 p-4">
+
+                <div style="font-size: 50px;">✍️</div>
+
+                <h5 class="mt-3 fw-bold">
+                    Flashcards
+                </h5>
+
+                <p class="text-muted">
+                    Crea preguntas para estudiar más rápido.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+    <img src="/img/sushito-working.png"
+         class="img-fluid mb-4"
+         style="max-width: 450px;">
+
+    <div class="alert alert-warning shadow-sm mx-auto"
+         style="max-width: 700px;">
+
+        🚧 Estamos trabajando en Sushito IA.
+
+        <br><br>
+
+        Muy pronto podrás estudiar con ayuda de inteligencia artificial:
+        resúmenes automáticos, esquemas, tests, organización y mucho más.
+
+        <br><br>
+
+        Gracias por tu paciencia
+
+    </div>
+
+    <a th:href="@{/home}"
+       class="btn btn-primary btn-lg mt-3">
+
+        Volver al inicio
+
+    </a>
+
+</div>
+
+
+<!-- IMPLEMENTACIÓN PARCIAL, PTE. DE FINALIZAR
 <div class="container mt-4">
 
     <h2 class="text-center mb-3">Sushito Comunica 📚</h2>
@@ -193,7 +287,7 @@
         chat.scrollTop = chat.scrollHeight;
     }
 
-</script>
+</script> -->
 
 </body>
 </html>

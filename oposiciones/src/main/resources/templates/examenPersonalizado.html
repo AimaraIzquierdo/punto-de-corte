@@ -6,10 +6,90 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
+    <style>
+        .navbar,
+        .navbar a,
+        .navbar-brand,
+        .nav-link {
+            color: black !important;
+        }
+
+        .navbar a:hover,
+        .navbar-brand:hover,
+        .nav-link:hover {
+            color: black !important;
+        }
+    </style>
 
 </head>
 
 <body class="bg-light">
+<nav class="navbar navbar-expand-lg"
+     style="background-color: #d9dbde;"
+     data-bs-theme="dark">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="#">
+            <img src="img/logoAjustado.png"
+                 alt="Logo"
+                 class="d-inline-block"
+                 style="width: 40px; height: auto;">
+            Punto de corte
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse"
+             id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       th:href="@{/home}">
+                        Inicio
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="me-3">
+                Hola <span th:text="${usuario.nombre}"></span>
+            </div>
+
+            <form class="d-flex">
+                <input class="form-control me-2"
+                       type="search"
+                       placeholder="Buscar"/>
+                <button class="btn btn-outline-success"
+                        type="submit">
+                    Buscar
+                </button>
+            </form>
+
+            <a th:href="@{/perfil}"
+               class="btn btn-outline-primary ms-2 me-3"
+               th:text="'Perfil de ' + ${usuario.nombre}">
+            </a>
+
+            <form th:action="@{/logout}"
+                  method="post">
+                <button class="btn btn-outline-danger">
+                    Cerrar sesión
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</nav>
 
 <div class="container py-5">
 

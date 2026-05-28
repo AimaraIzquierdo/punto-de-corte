@@ -47,7 +47,7 @@ public class ModuloService {
         modulo3.setDescripcion("Habla con Oppi y estudia con él");
         modulo3.setImagen("/img/Imagen chat ia.png");
         modulo3.setTextoBoton("Chat de Oppi");
-        modulo3.setRuta("/chat");
+        modulo3.setRuta("/sushito");
         modulo3.setRolesPermitidos(Set.of(
                 Rol.OPOPREMIUM,
                 Rol.OPOACADEMIA,
