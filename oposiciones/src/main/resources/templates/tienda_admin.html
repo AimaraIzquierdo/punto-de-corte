@@ -244,8 +244,7 @@
 
                         <form th:action="@{/tienda/admin/eliminar/{id}(id=${p.idProduc})}"
                               method="post"
-                              class="d-inline"
-                              onsubmit="return confirm('¿Eliminar este producto?')">
+                              class="d-inline">
 
                             <input type="hidden"
                                    th:name="${_csrf.parameterName}"
