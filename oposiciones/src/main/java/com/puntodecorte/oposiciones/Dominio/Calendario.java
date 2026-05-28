@@ -10,14 +10,11 @@ public class Calendario {
     private Long id;
 
     private String titulo;
-
     private String fechaInicio;
-
     private String fechaFin;
 
+    @Column(length = 1000)
     private String descripcion;
-
-    public Calendario() {}
 
     public Long getId() {
         return id;
