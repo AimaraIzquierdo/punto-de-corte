@@ -84,22 +84,139 @@
 
                         <button type="submit" class="btn btn-primary w-100">Entrar</button>
 
+                        <div class="text-center mt-3">
+
+                            <a href="#"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalRestablecer">
+
+                                ¿Has olvidado tu contraseña?
+
+                            </a>
+
+                        </div>
+
                         <hr>
 
                         <p class="text-center">¿No tienes cuenta?
                             <a th:href="@{/registro}">Crear cuenta</a>
                         </p>
-
                     </form>
-
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Restablecer contrasena -->
+
+<div class="modal fade"
+     id="modalRestablecer"
+     tabindex="-1"
+     aria-labelledby="modalRestablecerLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="modalRestablecerLabel">
+                    Restablecer contraseña
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
             </div>
 
+            <div class="modal-body">
+
+                <!-- MENSAJE INFO -->
+
+                <div class="alert alert-warning">
+
+                    <strong>Estamos trabajando en esto.</strong>
+
+                    En breves lo tendrás disponible.
+
+                    <hr>
+
+                    Para cualquier problema contacta con nosotros en:
+
+                    <br><br>
+
+                    <strong>
+                        aimara_5110@escuelaces.net
+                    </strong>
+
+                    <br>
+
+                    <strong>
+                        diana_5033@escuelaces.net
+                    </strong>
+                    <br><br>
+                    Gracias por tu comprensión.
+                </div>
+
+                <!-- EMAIL -->
+
+                <div class="mb-3">
+                    <label for="emailRecuperacion"
+                           class="form-label">
+                        Introduce tu email
+                    </label>
+
+                    <input type="email"
+                           class="form-control"
+                           id="emailRecuperacion"
+                           placeholder="ejemplo@email.com">
+                </div>
+
+                <!-- CÓDIGO -->
+
+                <div class="mb-3">
+                    <label for="codigoRecuperacion"
+                           class="form-label">
+                        Código de recuperación
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           id="codigoRecuperacion"
+                           value="123456"
+                           readonly>
+                    <div class="form-text">
+                        Código temporal de prototipo.
+                    </div>
+                </div>
+
+                <!-- Nueva contrasena -->
+
+                <div class="mb-3">
+                    <label for="nuevaPassword"
+                           class="form-label">
+                        Nueva contraseña
+                    </label>
+                    <input type="password"
+                           class="form-control"
+                           id="nuevaPassword">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button"
+                        class="btn btn-primary">
+                    Restablecer contraseña
+                </button>
+            </div>
         </div>
-
     </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
