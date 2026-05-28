@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resultado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .resumen-pregunta {
+            border-left: 4px solid #0d6efd;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+        }
+        .correcta {
+            border-left-color: #28a745;
+            background-color: #e8f5e9;
+        }
+        .incorrecta {
+            border-left-color: #dc3545;
+            background-color: #ffebee;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <!-- RESULTADO PRINCIPAL -->
+    <div class="card shadow-sm p-5 text-center mb-4">
+        <h2 class="fw-bold mb-4">Resultado del examen</h2>
+        <div class="display-4 fw-bold mb-2" th:text="${aciertos} + ' / 10'"></div>
+        <p class="text-muted">
+            Porcentaje:
+            <span th:text="${(aciertos * 100) / 10} + '%'"></span>
+        </p>
+    </div>
+
+    <!-- RESUMEN DETALLADO -->
+    <div class="card shadow-sm p-4">
+        <h4 class="fw-bold mb-4">Resumen de respuestas</h4>
+
+        <div th:each="p : ${examen}" class="resumen-pregunta">
+
+            <!-- PREGUNTA -->
+            <h6 class="fw-bold mb-3" th:text="${p.pregunta}"></h6>
+
+            <!-- OPCIONES CON IDENTIFICACIÓN DE CORRECTA -->
+            <div class="mb-3">
+                <small class="d-block mb-2">
+                    <strong>Opción 1:</strong>
+                    <span th:text="${p.opcion1}"></span>
+                    <span th:if="${p.correcta == 1}" class="badge bg-success ms-2">Correcta</span>
+                </small>
+                <small class="d-block mb-2">
+                    <strong>Opción 2:</strong>
+                    <span th:text="${p.opcion2}"></span>
+                    <span th:if="${p.correcta == 2}" class="badge bg-success ms-2">Correcta</span>
+                </small>
+                <small class="d-block mb-2">
+                    <strong>Opción 3:</strong>
+                    <span th:text="${p.opcion3}"></span>
+                    <span th:if="${p.correcta == 3}" class="badge bg-success ms-2">Correcta</span>
+                </small>
+                <small class="d-block mb-2">
+                    <strong>Opción 4:</strong>
+                    <span th:text="${p.opcion4}"></span>
+                    <span th:if="${p.correcta == 4}" class="badge bg-success ms-2">Correcta</span>
+                </small>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BOTONES -->
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-primary">
+            Volver al inicio
+        </a>
+        <a href="/simuladorExamen" class="btn btn-secondary">
+            Crear nuevo examen
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
