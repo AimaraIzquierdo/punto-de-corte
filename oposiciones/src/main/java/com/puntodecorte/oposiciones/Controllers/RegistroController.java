@@ -27,7 +27,15 @@ public class RegistroController {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String passwordConfirm,
+            @RequestParam(required = false) Boolean aceptaTerminos,
             Model model) {
+
+        if (aceptaTerminos == null || !aceptaTerminos) {
+            model.addAttribute("error",
+                    "Debes aceptar los términos y condiciones");
+
+            return "registro";
+        }
 
         var resultado = registroService.registrarUsuario(nombre, apellidos, email, password, passwordConfirm);
 

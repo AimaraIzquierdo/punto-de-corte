@@ -3,11 +3,11 @@ package com.puntodecorte.oposiciones.Dominio;
 import java.util.Set;
 
 public class Modulo {
-    public String nombre;
-    public String descripcion;
-    public String imagen;
-    public String textoBoton;
-    public String ruta;
+    private String nombre;
+    private String descripcion;
+    private String imagen;
+    private String textoBoton;
+    private String ruta;
 
     private Set<Rol> rolesPermitidos;
 
