@@ -58,7 +58,7 @@ public class CarritoController {
         return "redirect:/tienda";
     }
 
-    @PostMapping("/carrito/eliminar/{idCarrito}")
+    @PostMapping("/eliminar/{idCarrito}")
     public String eliminar(@PathVariable Long idCarrito) {
 
         carritoService.eliminar(idCarrito);

@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 public class SecurityConfig {
 
     private final UsuarioService usuarioService;
-    private final CustomAuthFailureHandler failureHandler; // si lo tienes creado
+    private final CustomAuthFailureHandler failureHandler;
 
     public SecurityConfig(UsuarioService usuarioService, CustomAuthFailureHandler failureHandler) {
         this.usuarioService = usuarioService;
@@ -43,10 +43,49 @@ public class SecurityConfig {
 
         // Si usas H2 console en desarrollo, ignorar CSRF para esa ruta y permitir frames
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
-        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/registro", "/css/**", "/img/**", "/js/**", "/h2-console/**").permitAll()
+                //Permisos publicos
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/login", "/registro", "/css/**", "/img/**", "/js/**").permitAll()
+
+
+                // Permisos para registrados
+                .requestMatchers(
+                        "/perfil/**",
+                        "/flashcards/**",
+                        "/temario/**",
+                        "/videos/**",
+                        "/archivos/**",
+                        "/sushito/**",
+                        "/calendario/**"
+                ).hasAnyRole("OPOFREE", "OPOPREMIUM", "ACADEMIA", "OPOACADEMIA", "ADMIN")
+
+                // Permisos opopremium
+                .requestMatchers(
+                        "/estadisticas/**",
+                        "/carrito/**",
+                        "/tiendaOpositor/**"
+                ).hasAnyRole("OPOPREMIUM", "ADMIN")
+
+                // Permisos opoacademia
+                .requestMatchers(
+                        "/estadisticas/**",
+                        "/carrito/**",
+                        "/tienda/**"
+                ).hasAnyRole("OPOACADEMIA", "ACADEMIA", "ADMIN")
+
+
+                // Permisos academias
+                .requestMatchers(
+                        "/tienda/admin/**"
+                ).hasAnyRole("ACADEMIA", "OPOACADEMIA", "ADMIN")
+
+                // Permisos administradores
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+
                 .anyRequest().authenticated()
         );
 
@@ -54,7 +93,7 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .failureHandler(failureHandler) // si no tienes failureHandler, reemplaza por .failureUrl("/login?error")
+                .failureHandler(failureHandler)
                 .defaultSuccessUrl("/home", true)
                 .permitAll()
         );

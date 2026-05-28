@@ -31,19 +31,19 @@ public class MisArchivosController {
         return "misArchivos";
     }
 
-    @PostMapping("/subir")
+    @PostMapping("/archivos/subir")
     public String subirArchivo(@RequestParam("file") MultipartFile file) throws IOException {
         archivoService.subirArchivo(file);
         return "redirect:/archivos";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @GetMapping("/archivos/eliminar/{id}")
     public String eliminarArchivo(@PathVariable Long id) throws IOException {
         archivoService.borrarArchivo(id);
         return "redirect:/archivos";
     }
 
-    @GetMapping("/ver/{id}")
+    @GetMapping("/archivos/ver/{id}")
     @ResponseBody
     public ResponseEntity<Resource> verArchivo(@PathVariable Long id) throws IOException {
 
