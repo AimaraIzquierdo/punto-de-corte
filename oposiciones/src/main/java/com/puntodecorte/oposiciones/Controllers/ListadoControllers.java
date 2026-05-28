@@ -31,8 +31,14 @@ public class ListadoControllers {
     @GetMapping("/home")
     public String listarModulos(Model model){
 
-        List<Modulo> listaModulos = moduloService.listarModulos();
         Usuario usuario = usuarioService.obtenerUsuarioActual();
+
+        List<Modulo> listaModulos = moduloService.listarModulos()
+                .stream()
+                .filter(modulo ->
+                        modulo.getRolesPermitidos()
+                                .contains(usuario.getRol())
+                ).toList();
         model.addAttribute("modulos", listaModulos);
         model.addAttribute("usuario", usuario);
 

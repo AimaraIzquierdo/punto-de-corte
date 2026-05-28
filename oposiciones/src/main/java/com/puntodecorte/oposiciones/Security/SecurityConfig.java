@@ -54,25 +54,31 @@ public class SecurityConfig {
 
                 // Permisos para registrados
                 .requestMatchers(
+                        "/estadisticas/**",
+                        "/temario/**",
                         "/perfil/**",
                         "/flashcards/**",
-                        "/temario/**",
                         "/videos/**",
                         "/archivos/**",
-                        "/sushito/**",
-                        "/calendario/**"
+                        "/simuladorExamen"
                 ).hasAnyRole("OPOFREE", "OPOPREMIUM", "ACADEMIA", "OPOACADEMIA", "ADMIN")
 
                 // Permisos opopremium
                 .requestMatchers(
-                        "/estadisticas/**",
                         "/carrito/**",
                         "/tiendaOpositor/**"
-                ).hasAnyRole("OPOPREMIUM", "ADMIN")
+                ).hasAnyRole("OPOFREE", "OPOPREMIUM","OPOACADEMIA", "ADMIN")
+
+                // Permisos IA
+                .requestMatchers(
+                        "/sushito/**",
+                        "/calendario/**",
+                        "/examenesOficiales"
+                ).hasAnyRole("OPOPREMIUM", "OPOACADEMIA", "ACADEMIA", "ADMIN")
+
 
                 // Permisos opoacademia
                 .requestMatchers(
-                        "/estadisticas/**",
                         "/carrito/**",
                         "/tienda/**"
                 ).hasAnyRole("OPOACADEMIA", "ACADEMIA", "ADMIN")
@@ -81,7 +87,7 @@ public class SecurityConfig {
                 // Permisos academias
                 .requestMatchers(
                         "/tienda/admin/**"
-                ).hasAnyRole("ACADEMIA", "OPOACADEMIA", "ADMIN")
+                ).hasAnyRole("ACADEMIA", "ADMIN")
 
                 // Permisos administradores
                 .requestMatchers("/admin/**").hasRole("ADMIN")
