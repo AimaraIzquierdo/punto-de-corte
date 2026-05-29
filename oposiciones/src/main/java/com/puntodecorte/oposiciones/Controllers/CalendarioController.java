@@ -39,7 +39,6 @@ public class CalendarioController {
         }).toList();
     }
 
-    /* ================= GUARDAR ================= */
 
     @ResponseBody
     @PostMapping("/calendario")
