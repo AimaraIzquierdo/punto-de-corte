@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TemarioRepository extends JpaRepository<Temario, Long> {
+    hola
 }
+
