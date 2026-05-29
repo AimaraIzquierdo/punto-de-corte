@@ -1,1 +1,21 @@
 data/*.mv.db
+IntelliJ
+.idea/
+*.iml
+
+Maven
+target/
+
+H2 Database
+*.db
+*.mv.db
+*.trace.db
+
+Logs
+.log
+
+Office temporales
+~$
+
+Mac
+.DS_Store

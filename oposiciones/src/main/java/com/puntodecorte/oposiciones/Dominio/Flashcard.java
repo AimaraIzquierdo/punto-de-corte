@@ -6,16 +6,9 @@ import jakarta.persistence.*;
 @Table(name = "Flashcards")
 public class Flashcard {
 
-    @ManyToOne
-    @JoinColumn(name = "id_usu")
-    private Usuario usuario;
-
-    public Usuario getUsuario() { return usuario; }
-
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_flash")
     private Long id_flash;
 
     @Column(name = "preg_flash")
@@ -28,6 +21,15 @@ public class Flashcard {
     @JoinColumn(name = "id_tema")
     private Tema tema;
 
+    @ManyToOne
+    @JoinColumn(name = "id_usu")
+    private Usuario usuario;
+
+    // IMPORTANTE:
+    // NO pongas @Column(name="color")
+    // porque tu tabla Flashcards NO tiene esa columna
+
+    @Transient
     private String color;
 
     public Flashcard() {
@@ -76,6 +78,14 @@ public class Flashcard {
         this.tema = tema;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public String getColor() {
         return color;
     }
@@ -83,8 +93,4 @@ public class Flashcard {
     public void setColor(String color) {
         this.color = color;
     }
-
-
 }
-
-
