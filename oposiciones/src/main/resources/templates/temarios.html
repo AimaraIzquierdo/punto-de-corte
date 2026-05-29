@@ -75,7 +75,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand" href="#">
-            <img src="img/logoAjustado.png"
+            <img th:src="@{/img/logoAjustado.png}"
                  alt="Logo"
                  class="d-inline-block"
                  style="width: 40px; height: auto;">
@@ -139,7 +139,7 @@
 
 <form class="subida"
       method="post"
-      action="/temarios/subir"
+      th:action="@{/temarios/subir}"
       enctype="multipart/form-data">
 
     <input type="file"
